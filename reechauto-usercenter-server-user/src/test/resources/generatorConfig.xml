@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+	<properties resource="generatorConfig.properties" />
+	<classPathEntry location="${jdbc.location}" />
+
+	<context id="context" targetRuntime="MyBatis3">
+		<!-- 序列化插件 -->
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+		<plugin type="${page.plugin.url}" />
+
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" /><!-- 是否取消注释 -->
+			<property name="suppressDate" value="true" /> <!-- 是否生成注释代时间戳 -->
+		</commentGenerator>
+
+		<!-- sql.xml配置文件 -->
+		<jdbcConnection driverClass="${jdbc.driverClassName}"
+			connectionURL="${jdbc.url}" userId="${jdbc.username}" password="${jdbc.password}" />
+
+		<javaTypeResolver>
+			<!--只有一个属于forceBigDecimals，默认false。如果字段精确超过0，生成BigDecimal 如果字段精确是0，总长度10-18生成Long; 如果字段精确是0，总长5-9生成Integer; 如果字段精确是0，总长小于5生成Short; 如果forceBigDecimals为true,统一生成BigDecimal -->
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<javaModelGenerator targetPackage="${model.targetPackage}"
+			targetProject="${model.targetProject}" />
+		<sqlMapGenerator targetPackage="${map.targetPackage}"
+			targetProject="${map.targetProject}" />
+		<javaClientGenerator targetPackage="${dao.targetPackage}"
+			targetProject="${dao.targetProject}" type="XMLMAPPER" />
+
+		 
+		 <table tableName="client_details">
+			<property name="useActualColumnNames" value="false" />
+		</table>
+		<table tableName="resource_scope">
+			<property name="useActualColumnNames" value="false" />
+		</table>
+		<table tableName="resource_server">
+			<property name="useActualColumnNames" value="false" />
+		</table>
+		<table tableName="sys_role">
+			<property name="useActualColumnNames" value="false" />
+		</table>
+		<table tableName="sys_user_role">
+			<property name="useActualColumnNames" value="false" />
+		</table>
+		<table tableName="user_account">
+			<property name="useActualColumnNames" value="false" />
+		</table>
+		<table tableName="user_details">
+			<property name="useActualColumnNames" value="false" />
+		</table>
+
+
+	</context>
+</generatorConfiguration>
