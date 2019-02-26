@@ -38,7 +38,7 @@ public class ImageValidateCodeFilter extends OncePerRequestFilter implements Ini
 	@Override
 	public void afterPropertiesSet() throws ServletException {
 		super.afterPropertiesSet();
-		addUrlToMap(ReechAuthConstant.VALIDATE_URL_MOBILE);
+		addUrlToMap(ReechAuthConstant.VALIDATE_URL_IMAGE);
 	}
 
 	protected void addUrlToMap(String urlString) {
