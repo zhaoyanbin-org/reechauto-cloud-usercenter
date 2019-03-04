@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.reechauto.usercenter.common.resp.ResponseData;
 import com.reechauto.usercenter.user.bean.UserEntity;
 import com.reechauto.usercenter.user.bean.enums.AccountType;
+import com.reechauto.usercenter.user.bean.req.user.MobileRegisterReq;
 import com.reechauto.usercenter.user.bean.req.user.UserAccountBindReq;
 import com.reechauto.usercenter.user.bean.req.user.UserDetailModifyReq;
 import com.reechauto.usercenter.user.bean.req.user.UserRegisterReq;
@@ -39,6 +40,17 @@ public class UserController {
 			return ResponseData.argumentsError().data(result.getAllErrors());
 		}
 		Long userId = userServer.registerUser(req.getAccountNum(), req.getPassword());
+		UserEntity userEntity = userServer.queryByUserId(userId);
+		return ResponseData.ok().data(userEntity);
+	}
+	
+	@RequestMapping(value = "/register/mobile", method = RequestMethod.POST)
+	public ResponseData registerUserMobile(@Valid MobileRegisterReq req, BindingResult result) {
+		log.info("手机注册新用户");
+		if (result.hasErrors()) {
+			return ResponseData.argumentsError().data(result.getAllErrors());
+		}
+		Long userId = userServer.registerUser(req.getMobile(), req.getPassword());
 		UserEntity userEntity = userServer.queryByUserId(userId);
 		return ResponseData.ok().data(userEntity);
 	}

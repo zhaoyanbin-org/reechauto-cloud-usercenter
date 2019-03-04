@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.reechauto.usercenter.user.filter.ValidateCodeSecurityConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,6 +36,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	private AccessDeniedHandler reechAccessDeniedHandler;
 	@Autowired
 	private AuthenticationEntryPoint reechAuthenticationEntryPoint;
+	@Autowired
+	private ValidateCodeSecurityConfig validateCodeSecurityConfig;
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -76,9 +79,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         .exceptionHandling().accessDeniedHandler(reechAccessDeniedHandler).authenticationEntryPoint(reechAuthenticationEntryPoint)
 		.and()
 		.authorizeRequests()
+		.antMatchers("/code/**").permitAll()
 		.antMatchers("/api/**").hasAuthority("ROLE_ADMIN")
 		.antMatchers("/reech/depart").access("#oauth2.hasScope('abc')")
 		.anyRequest().authenticated();
+		
+		 http.apply(validateCodeSecurityConfig);
 	}
 
 }

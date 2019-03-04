@@ -23,10 +23,8 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import lombok.extern.slf4j.Slf4j;
 
 
-@Slf4j
 @RestController
 @RequestMapping("api")
 public class BaseController {

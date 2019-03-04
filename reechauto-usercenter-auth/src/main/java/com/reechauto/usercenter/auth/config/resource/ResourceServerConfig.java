@@ -10,8 +10,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
+import com.reechauto.usercenter.auth.filter.ValidateCodeSecurityConfig;
 import com.reechauto.usercenter.auth.service.authentication.config.MobileSecurityConfigurer;
-import com.reechauto.usercenter.auth.service.validatecode.filter.ValidateCodeSecurityConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,12 +41,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		 http.requestMatchers().antMatchers("/mobile/token","/logout/**","/nologin/**","/user","/userinfo")
+		 http.requestMatchers().antMatchers("/mobile/token","/logout/**","/user","/userinfo")
          .and()
          .exceptionHandling().accessDeniedHandler(reechAccessDeniedHandler).authenticationEntryPoint(reechAuthenticationEntryPoint)
          .and()
          .authorizeRequests()
-         .antMatchers("/nologin/**").permitAll()
+         //.antMatchers("/nologin/**").permitAll()
          .anyRequest().authenticated();
 		 
 		 http.apply(mobileSecurityConfigurer);
