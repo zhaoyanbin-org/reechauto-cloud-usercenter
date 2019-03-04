@@ -64,7 +64,7 @@ public class UserServer {
 		UserDetails record = new UserDetails();
 		record.setUserId(userId);
 		record.setPassword(passwordEN);
-		record.setNickName(accountNum);
+		record.setNickName("用户_" + accountNum);
 
 		UserAccount accountRecord = new UserAccount();
 		accountRecord.setAccountNum(accountNum);
@@ -108,68 +108,68 @@ public class UserServer {
 			if (RegexUtil.checkAccount(accountNum))
 				throw new RuntimeException("帐号不能由数字开头，应由4-10位的字母,数字,下划线组成");
 		}
-		UserAccountExample example=new UserAccountExample();
+		UserAccountExample example = new UserAccountExample();
 		Criteria criteria = example.createCriteria();
 		criteria.andUserIdEqualTo(userId);
 		long total = this.userAccountMapper.countByExample(example);
-		if(total==0) {
+		if (total == 0) {
 			throw new RuntimeException("帐号ID不存在");
 		}
-		
+
 		criteria.andAccountTypeEqualTo(accountType.getValue());
 		List<UserAccount> list = this.userAccountMapper.selectByExample(example);
-		if(CollectionUtils.isNotEmpty(list)) {
-			throw new RuntimeException(accountType.getText()+"类型的帐号不存在");
+		if (CollectionUtils.isNotEmpty(list)) {
+			throw new RuntimeException(accountType.getText() + "类型的帐号不存在");
 		}
-		
+
 		UserAccount accountRecord = new UserAccount();
 		accountRecord.setAccountNum(accountNum);
 		accountRecord.setAccountType(accountType.getValue());
 		accountRecord.setUserId(userId);
 
-		boolean flag = this.userAccountMapper.insertSelective(accountRecord)>0;
-		if(!flag) {
+		boolean flag = this.userAccountMapper.insertSelective(accountRecord) > 0;
+		if (!flag) {
 			throw new RuntimeException("绑定失败");
 		}
 		return queryByUserId(userId);
 	}
-	
+
 	/**
 	 * 修改用户信息
+	 * 
 	 * @param req
 	 * @return
 	 */
 	public UserEntity modifyUserDetail(UserDetailModifyReq req) {
 		UserDetails userDetails = this.userDetailsMapper.selectByPrimaryKey(req.getUserId());
-		if(userDetails==null) {
+		if (userDetails == null) {
 			throw new RuntimeException("错误的用户ID");
 		}
-		if(StringUtils.isNotBlank(req.getRealName())) {
+		if (StringUtils.isNotBlank(req.getRealName())) {
 			userDetails.setRealName(req.getRealName());
 		}
-		if(StringUtils.isNotBlank(req.getNickName())) {
+		if (StringUtils.isNotBlank(req.getNickName())) {
 			userDetails.setNickName(req.getNickName());
 		}
-		if(StringUtils.isNotBlank(req.getSex())) {
-			if("女".equals(req.getSex())||"男".equals(req.getSex()))
-			{
-			  userDetails.setSex(req.getSex());
+		if (StringUtils.isNotBlank(req.getSex())) {
+			if ("女".equals(req.getSex()) || "男".equals(req.getSex())) {
+				userDetails.setSex(req.getSex());
 			}
 		}
-		if(StringUtils.isNotBlank(req.getBirthday())) {
+		if (StringUtils.isNotBlank(req.getBirthday())) {
 			userDetails.setBirthday(DateUtil.convert2Date(req.getBirthday(), "yyyy-MM-dd"));
 		}
-		if(StringUtils.isNotBlank(req.getImgUrl())) {
+		if (StringUtils.isNotBlank(req.getImgUrl())) {
 			userDetails.setImgUrl(req.getImgUrl());
 		}
-		if(StringUtils.isNotBlank(req.getCity())) {
+		if (StringUtils.isNotBlank(req.getCity())) {
 			userDetails.setCity(req.getCity());
 		}
-		if(StringUtils.isNotBlank(req.getUserStatus())) {
-			UserStatus userStatus= UserStatus.get(req.getUserStatus().toUpperCase());
+		if (StringUtils.isNotBlank(req.getUserStatus())) {
+			UserStatus userStatus = UserStatus.get(req.getUserStatus().toUpperCase());
 			userDetails.setUserStatus(userStatus.getValue());
 		}
-		if(StringUtils.isNotBlank(req.getIsDel())) {
+		if (StringUtils.isNotBlank(req.getIsDel())) {
 			UserIsDel userIsDel = UserIsDel.get(req.getIsDel().toUpperCase());
 			userDetails.setIsDel(userIsDel.getValue());
 		}
@@ -177,5 +177,5 @@ public class UserServer {
 		this.userDetailsMapper.updateByPrimaryKeySelective(userDetails);
 		return queryByUserId(req.getUserId());
 	}
-	
+
 }

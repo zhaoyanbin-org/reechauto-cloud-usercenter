@@ -1,4 +1,4 @@
-package com.reechauto.usercenter.auth.service.validatecode.bean;
+package com.reechauto.usercenter.user.service.validatecode.bean;
 
 import java.time.LocalDateTime;
 

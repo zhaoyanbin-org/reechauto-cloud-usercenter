@@ -26,17 +26,6 @@ public interface ReechAuthConstant {
 	public static final String PARAMETER_NAME_ON_VALIDATE_VCODE_MOBILE = "vcode";
 	public static final String VALIDATE_URL_MOBILE = "/mobile/token";
 	
-	/*
-	 * 图片验证码
-	 */
-	public static final int VALIDATE_IMAGE_WIDTH=75;
-	public static final int VALIDATE_IMAGE_HEIGHT=25;
-	public static final String PARAMETER_NAME_ON_VALIDATE_DEVICEID_IMAGE="deviceid";
-	public static final String PARAMETER_NAME_ON_VALIDATE_VCODE_IMAGE="vcode";
-	public static final String VALIDATE_URL_IMAGE = "/oauth/image";
 
-	public static final String DEDAULT_IMAGE_CODE = "/code/image";
-	public static final String USER_ROLE_SAVE_PATH = "ReechUser:role:";
-	public static final String USER_MENU_SAVE_PATH = "ReechUser:menu:";
 
 }

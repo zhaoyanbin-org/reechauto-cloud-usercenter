@@ -1,4 +1,4 @@
-package com.reechauto.usercenter.auth.service.validatecode.generator;
+package com.reechauto.usercenter.user.service.validatecode.generator;
 
 import java.util.concurrent.TimeUnit;
 
@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
-import com.reechauto.usercenter.auth.entity.constant.ReechAuthConstant;
-import com.reechauto.usercenter.auth.service.validatecode.bean.CodeBean;
-import com.reechauto.usercenter.auth.service.validatecode.bean.CodeType;
+import com.reechauto.usercenter.user.bean.ReechAuthConstant;
+import com.reechauto.usercenter.user.service.validatecode.bean.CodeBean;
+import com.reechauto.usercenter.user.service.validatecode.bean.CodeType;
 
 /**
  * 验证码生成器
