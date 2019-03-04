@@ -44,6 +44,12 @@ public class UserController {
 		return ResponseData.ok().data(userEntity);
 	}
 	
+	/**
+	 * 手机注册用户
+	 * @param req
+	 * @param result
+	 * @return
+	 */
 	@RequestMapping(value = "/register/mobile", method = RequestMethod.POST)
 	public ResponseData registerUserMobile(@Valid MobileRegisterReq req, BindingResult result) {
 		log.info("手机注册新用户");

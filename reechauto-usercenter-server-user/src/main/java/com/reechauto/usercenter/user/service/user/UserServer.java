@@ -92,6 +92,15 @@ public class UserServer {
 	}
 
 	public UserEntity accountBind(Long userId, String accountNum, AccountType accountType) {
+		UserAccount userAccount1 = queryUserAccount(userId,accountType);
+		if(userAccount1!=null) {
+			throw new RuntimeException(accountType.getText()+"已绑定");
+		}
+		UserAccount userAccount2 = queryUserAccountByNum(accountNum);
+		if(userAccount2!=null) {
+			throw new RuntimeException(accountNum+"已存在");
+		}
+		
 		if (accountType.equals(AccountType.email)) {
 			if (!RegexUtil.checkEmail(accountNum))
 				throw new RuntimeException("绑定邮箱格式不正确");
@@ -176,6 +185,21 @@ public class UserServer {
 		userDetails.setModifyTime(new Date());
 		this.userDetailsMapper.updateByPrimaryKeySelective(userDetails);
 		return queryByUserId(req.getUserId());
+	}
+	
+	public UserAccount queryUserAccount(Long userId, AccountType accountType) {
+		UserAccountExample example=new UserAccountExample();
+		example.createCriteria().andAccountTypeEqualTo(accountType.getValue()).andUserIdEqualTo(userId);
+		List<UserAccount> list = this.userAccountMapper.selectByExample(example);
+		if(CollectionUtils.isEmpty(list)) {
+			return null;
+		}
+		return list.get(0);
+	}
+	
+	public UserAccount queryUserAccountByNum(String accountNum) {
+		UserAccount userAccount = this.userAccountMapper.selectByPrimaryKey(accountNum);
+        return userAccount;
 	}
 
 }
