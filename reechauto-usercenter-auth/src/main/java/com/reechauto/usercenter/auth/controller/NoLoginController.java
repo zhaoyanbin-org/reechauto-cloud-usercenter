@@ -32,8 +32,9 @@ public class NoLoginController {
 			@RequestParam(name = "codeType", required = false, defaultValue = "numbers") String codeType,
 			@RequestParam(name = "count", required = false, defaultValue = "4") int count,
 			@RequestParam(name = "expireId", required = false, defaultValue = "60") int expireId) throws Exception {
+		System.out.println("进入/mobile/send********************************************************");
 		CodeBean codeBean = codeProcessor.create(count, CodeType.get(codeType), expireId, mobile);
-		mobileProcessor.send(codeBean, "templateId");
+		mobileProcessor.send(codeBean, "SMS_149375713");
 		return ResponseData.ok();
 	}
 
