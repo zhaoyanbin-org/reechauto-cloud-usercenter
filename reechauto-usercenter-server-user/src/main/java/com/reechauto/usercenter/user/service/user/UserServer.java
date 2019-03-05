@@ -128,7 +128,7 @@ public class UserServer {
 		criteria.andAccountTypeEqualTo(accountType.getValue());
 		List<UserAccount> list = this.userAccountMapper.selectByExample(example);
 		if (CollectionUtils.isNotEmpty(list)) {
-			throw new RuntimeException(accountType.getText() + "类型的帐号不存在");
+			throw new RuntimeException(accountType.getText() + "类型的帐号已存在");
 		}
 
 		UserAccount accountRecord = new UserAccount();
