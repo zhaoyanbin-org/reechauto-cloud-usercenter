@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -139,6 +140,53 @@ public class UserServer {
 		boolean flag = this.userAccountMapper.insertSelective(accountRecord) > 0;
 		if (!flag) {
 			throw new RuntimeException("绑定失败");
+		}
+		return queryByUserId(userId);
+	}
+	
+	public UserEntity accountModify(Long userId, String accountNum, AccountType accountType) {
+		UserAccount userAccount1 = queryUserAccount(userId,accountType);
+		if(userAccount1==null) {
+			throw new RuntimeException(accountType.getText()+"未绑定");
+		}
+		UserAccount userAccount2 = queryUserAccountByNum(accountNum);
+		if(userAccount2!=null) {
+			throw new RuntimeException(accountNum+"已存在");
+		}
+		
+		if (accountType.equals(AccountType.email)) {
+			if (!RegexUtil.checkEmail(accountNum))
+				throw new RuntimeException("绑定邮箱格式不正确");
+		}
+		if (accountType.equals(AccountType.mobile)) {
+			if (!RegexUtil.checkMobile(accountNum))
+				throw new RuntimeException("绑定手机格式不正确");
+		}
+		if (accountType.equals(AccountType.idcard)) {
+			if (RegexUtil.checkIdCard(accountNum))
+				throw new RuntimeException("绑定身份证号码不正确");
+		}
+		if (accountType.equals(AccountType.account)) {
+			if (RegexUtil.checkAccount(accountNum))
+				throw new RuntimeException("帐号不能由数字开头，应由4-10位的字母,数字,下划线组成");
+		}
+		UserAccountExample example = new UserAccountExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andUserIdEqualTo(userId);
+		long total = this.userAccountMapper.countByExample(example);
+		if (total == 0) {
+			throw new RuntimeException("帐号ID不存在");
+		}
+
+		criteria.andAccountTypeEqualTo(accountType.getValue());
+		List<UserAccount> list = this.userAccountMapper.selectByExample(example);
+		UserAccount accountRecord = list.get(0);
+		UserAccount accountRecord1 = new UserAccount();
+		BeanUtils.copyProperties(accountRecord, accountRecord1);
+		accountRecord1.setAccountNum(accountNum);
+		boolean flag = this.userAccountMapper.updateByExampleSelective(accountRecord1, example)>0;
+		if (!flag) {
+			throw new RuntimeException("修改失败");
 		}
 		return queryByUserId(userId);
 	}

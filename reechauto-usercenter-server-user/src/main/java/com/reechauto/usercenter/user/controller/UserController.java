@@ -16,7 +16,6 @@ import com.reechauto.usercenter.user.bean.req.user.UserAccountBindReq;
 import com.reechauto.usercenter.user.bean.req.user.UserDetailModifyReq;
 import com.reechauto.usercenter.user.bean.req.user.UserRegisterReq;
 import com.reechauto.usercenter.user.service.user.UserServer;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -43,15 +42,17 @@ public class UserController {
 		UserEntity userEntity = userServer.queryByUserId(userId);
 		return ResponseData.ok().data(userEntity);
 	}
-	
+
 	/**
 	 * 手机注册用户
+	 * 
 	 * @param req
 	 * @param result
 	 * @return
+	 * @throws Exception
 	 */
 	@RequestMapping(value = "/register/mobile", method = RequestMethod.POST)
-	public ResponseData registerUserMobile(@Valid MobileRegisterReq req, BindingResult result) {
+	public ResponseData registerUserMobile(@Valid MobileRegisterReq req, BindingResult result){
 		log.info("手机注册新用户");
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(result.getAllErrors());
@@ -63,6 +64,7 @@ public class UserController {
 
 	/**
 	 * 绑定Email
+	 * 
 	 * @param req
 	 * @param result
 	 * @return
@@ -79,6 +81,7 @@ public class UserController {
 
 	/**
 	 * 绑定手机号
+	 * 
 	 * @param req
 	 * @param result
 	 * @return
@@ -95,6 +98,7 @@ public class UserController {
 
 	/**
 	 * 绑定身份证
+	 * 
 	 * @param req
 	 * @param result
 	 * @return
@@ -111,6 +115,7 @@ public class UserController {
 
 	/**
 	 * 绑定帐号
+	 * 
 	 * @param req
 	 * @param result
 	 * @return
@@ -126,7 +131,74 @@ public class UserController {
 	}
 	
 	/**
+	 * 修改email
+	 * 
+	 * @param req
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping(value = "/modify/email", method = RequestMethod.POST)
+	public ResponseData modifyUserEmail(@Valid UserAccountBindReq req, BindingResult result) {
+		log.info("修改Email");
+		if (result.hasErrors()) {
+			return ResponseData.argumentsError().data(result.getAllErrors());
+		}
+		UserEntity userEntity = userServer.accountModify(req.getUserId(), req.getAccountNum(), AccountType.email);
+		return ResponseData.ok().data(userEntity);
+	}
+
+	/**
+	 * 修改手机号
+	 * 
+	 * @param req
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping(value = "/modify/mobile", method = RequestMethod.POST)
+	public ResponseData modifyUserMobile(@Valid UserAccountBindReq req, BindingResult result) {
+		log.info("修改手机号");
+		if (result.hasErrors()) {
+			return ResponseData.argumentsError().data(result.getAllErrors());
+		}
+		UserEntity userEntity = userServer.accountModify(req.getUserId(), req.getAccountNum(), AccountType.mobile);
+		return ResponseData.ok().data(userEntity);
+	}
+	/**
+	 * 修改身份证
+	 * 
+	 * @param req
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping(value = "/modify/idcard", method = RequestMethod.POST)
+	public ResponseData modifyUserIdcard(@Valid UserAccountBindReq req, BindingResult result) {
+		log.info("修改身份证");
+		if (result.hasErrors()) {
+			return ResponseData.argumentsError().data(result.getAllErrors());
+		}
+		UserEntity userEntity = userServer.accountModify(req.getUserId(), req.getAccountNum(), AccountType.idcard);
+		return ResponseData.ok().data(userEntity);
+	}
+	/**
+	 * 修改账号
+	 * 
+	 * @param req
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping(value = "/modify/account", method = RequestMethod.POST)
+	public ResponseData modifyUserAccount(@Valid UserAccountBindReq req, BindingResult result) {
+		log.info("修改account");
+		if (result.hasErrors()) {
+			return ResponseData.argumentsError().data(result.getAllErrors());
+		}
+		UserEntity userEntity = userServer.accountModify(req.getUserId(), req.getAccountNum(), AccountType.account);
+		return ResponseData.ok().data(userEntity);
+	}
+
+	/**
 	 * 修改用户信息
+	 * 
 	 * @param req
 	 * @param result
 	 * @return
