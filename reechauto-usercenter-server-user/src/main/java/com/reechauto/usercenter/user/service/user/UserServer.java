@@ -173,16 +173,8 @@ public class UserServer {
 		UserAccountExample example = new UserAccountExample();
 		Criteria criteria = example.createCriteria();
 		criteria.andUserIdEqualTo(userId);
-		long total = this.userAccountMapper.countByExample(example);
-		if (total == 0) {
-			throw new RuntimeException("帐号ID不存在");
-		}
-
 		criteria.andAccountTypeEqualTo(accountType.getValue());
-		List<UserAccount> list = this.userAccountMapper.selectByExample(example);
-		UserAccount accountRecord = list.get(0);
 		UserAccount accountRecord1 = new UserAccount();
-		BeanUtils.copyProperties(accountRecord, accountRecord1);
 		accountRecord1.setAccountNum(accountNum);
 		boolean flag = this.userAccountMapper.updateByExampleSelective(accountRecord1, example)>0;
 		if (!flag) {
