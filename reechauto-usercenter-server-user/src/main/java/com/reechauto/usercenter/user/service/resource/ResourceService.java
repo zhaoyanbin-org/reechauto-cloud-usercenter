@@ -1,10 +1,8 @@
 package com.reechauto.usercenter.user.service.resource;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.reechauto.usercenter.user.entity.ResourceServer;
 import com.reechauto.usercenter.user.entity.ResourceServerExample;
 import com.reechauto.usercenter.user.entity.ResourceServerExample.Criteria;
@@ -39,6 +37,6 @@ public class ResourceService {
 		resourceServer.setResourceId(newResourceId);
 		resourceServer.setResourceName(newResourceName);
 		return resourceServerMapper.updateByExampleSelective(resourceServer, example)>0;
-		
 	}
+	
 }

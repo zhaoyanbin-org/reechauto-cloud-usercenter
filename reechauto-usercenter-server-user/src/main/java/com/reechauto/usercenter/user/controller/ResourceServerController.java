@@ -1,22 +1,18 @@
 package com.reechauto.usercenter.user.controller;
 
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.reechauto.usercenter.common.resp.ResponseData;
 import com.reechauto.usercenter.user.bean.req.resource.ResourceServerAddRequest;
 import com.reechauto.usercenter.user.bean.req.resource.ResourceServerDeleteRequest;
 import com.reechauto.usercenter.user.bean.req.resource.ResourceServerUpdateRequest;
 import com.reechauto.usercenter.user.entity.ResourceServer;
 import com.reechauto.usercenter.user.service.resource.ResourceService;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
