@@ -1,6 +1,5 @@
 package com.reechauto.usercenter.user.controller;
 
-import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -12,7 +11,6 @@ import com.reechauto.usercenter.user.bean.req.resource.ResourceServerAddRequest;
 import com.reechauto.usercenter.user.bean.req.resource.ResourceServerDeleteRequest;
 import com.reechauto.usercenter.user.bean.req.resource.ResourceServerQueryRequest;
 import com.reechauto.usercenter.user.bean.req.resource.ResourceServerUpdateRequest;
-import com.reechauto.usercenter.user.entity.ResourceServer;
 import com.reechauto.usercenter.user.service.resource.ResourceService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,8 +50,8 @@ public class ResourceServerController {
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	public ResponseData queryResourceServer(ResourceServerQueryRequest req) {
 		log.info("资源服务器列表");
-		List<ResourceServer> list = resourceService.resourceServerList(req);
-		return ResponseData.ok().data(list);
+		ResponseData responseData = resourceService.resourceServerList(req);
+		return responseData;
 	}
 	/**
 	 * 修改资源服务器

@@ -3,6 +3,8 @@ package com.reechauto.usercenter.user.service.resource;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.reechauto.usercenter.common.resp.ResponseData;
 import com.reechauto.usercenter.user.bean.req.resource.ResourceServerQueryRequest;
 import com.reechauto.usercenter.user.entity.ResourceServer;
 import com.reechauto.usercenter.user.entity.ResourceServerExample;
@@ -21,11 +23,13 @@ public class ResourceService {
 		return this.resourceServerMapper.insert(record) > 0;
 	}
 
-	public List<ResourceServer> resourceServerList(ResourceServerQueryRequest req) {
+	public ResponseData resourceServerList(ResourceServerQueryRequest req) {
 		ResourceServerExample example = new ResourceServerExample();
+		Long total = resourceServerMapper.countByExample(example);
 		example.setLimitStart(req.getStart());
 		example.setOffset(req.getPageNum());
-		return this.resourceServerMapper.selectByExample(example);
+		List<ResourceServer> list = this.resourceServerMapper.selectByExample(example);
+		return ResponseData.ok().data(list).data("total",total);
 	}
 	
 	public boolean deleteResourceServer(String resourceId) {
