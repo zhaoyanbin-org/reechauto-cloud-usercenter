@@ -2,7 +2,6 @@ package com.reechauto.usercenter.user.controller;
 
 import java.util.List;
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.reechauto.usercenter.common.resp.ResponseData;
 import com.reechauto.usercenter.user.bean.req.resource.ResourceScopeAddRequest;
 import com.reechauto.usercenter.user.bean.req.resource.ResourceScopeDeleteRequest;
+import com.reechauto.usercenter.user.bean.req.resource.ResourceScopeQueryRequest;
 import com.reechauto.usercenter.user.bean.req.resource.ResourceScopeUpdateRequest;
 import com.reechauto.usercenter.user.entity.ResourceScope;
 import com.reechauto.usercenter.user.service.resource.ResourceScopeService;
@@ -46,9 +46,9 @@ public class ResourceScopeController {
 	 * @return
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public ResponseData queryResourceServer() {
+	public ResponseData queryResourceServer(ResourceScopeQueryRequest req) {
 		log.info("资源范围列表");
-		List<ResourceScope> list= resourceScopeService.resourceScopeList();
+		List<ResourceScope> list= resourceScopeService.resourceScopeList(req);
 		return ResponseData.ok().data(list);
 	}
 	/**

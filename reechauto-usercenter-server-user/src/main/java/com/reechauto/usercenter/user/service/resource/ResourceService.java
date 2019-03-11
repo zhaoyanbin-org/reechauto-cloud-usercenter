@@ -3,6 +3,7 @@ package com.reechauto.usercenter.user.service.resource;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.reechauto.usercenter.user.bean.req.resource.ResourceServerQueryRequest;
 import com.reechauto.usercenter.user.entity.ResourceServer;
 import com.reechauto.usercenter.user.entity.ResourceServerExample;
 import com.reechauto.usercenter.user.entity.ResourceServerExample.Criteria;
@@ -20,8 +21,10 @@ public class ResourceService {
 		return this.resourceServerMapper.insert(record) > 0;
 	}
 
-	public List<ResourceServer> resourceServerList() {
+	public List<ResourceServer> resourceServerList(ResourceServerQueryRequest req) {
 		ResourceServerExample example = new ResourceServerExample();
+		example.setLimitStart(req.getStart());
+		example.setOffset(req.getPageNum());
 		return this.resourceServerMapper.selectByExample(example);
 	}
 	

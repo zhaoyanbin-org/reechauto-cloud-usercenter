@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.reechauto.usercenter.common.resp.ResponseData;
 import com.reechauto.usercenter.user.bean.req.resource.ResourceServerAddRequest;
 import com.reechauto.usercenter.user.bean.req.resource.ResourceServerDeleteRequest;
+import com.reechauto.usercenter.user.bean.req.resource.ResourceServerQueryRequest;
 import com.reechauto.usercenter.user.bean.req.resource.ResourceServerUpdateRequest;
 import com.reechauto.usercenter.user.entity.ResourceServer;
 import com.reechauto.usercenter.user.service.resource.ResourceService;
@@ -49,9 +50,9 @@ public class ResourceServerController {
 	 * @return
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public ResponseData queryResourceServer() {
+	public ResponseData queryResourceServer(ResourceServerQueryRequest req) {
 		log.info("资源服务器列表");
-		List<ResourceServer> list = resourceService.resourceServerList();
+		List<ResourceServer> list = resourceService.resourceServerList(req);
 		return ResponseData.ok().data(list);
 	}
 	/**

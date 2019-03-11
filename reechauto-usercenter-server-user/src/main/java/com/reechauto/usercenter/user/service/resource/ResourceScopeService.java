@@ -4,6 +4,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.reechauto.usercenter.user.bean.req.resource.ResourceScopeQueryRequest;
 import com.reechauto.usercenter.user.bean.req.resource.ResourceScopeUpdateRequest;
 import com.reechauto.usercenter.user.entity.ResourceScope;
 import com.reechauto.usercenter.user.entity.ResourceScopeExample;
@@ -21,8 +22,10 @@ public class ResourceScopeService {
 		resourceScope.setResourceId(resourceId);
 		return resourceScopeMapper.insert(resourceScope)>0;
 	}
-	public List<ResourceScope> resourceScopeList() {
+	public List<ResourceScope> resourceScopeList(ResourceScopeQueryRequest req) {
 		ResourceScopeExample example = new ResourceScopeExample();
+		example.setLimitStart(req.getStart());
+		example.setOffset(req.getPageNum());
 		return resourceScopeMapper.selectByExample(example);
 	}
 	public boolean deleteResourceScope(Integer id) {
