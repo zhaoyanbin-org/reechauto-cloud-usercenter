@@ -11,7 +11,7 @@ import com.reechauto.usercenter.user.bean.req.resource.ResourceServerAddRequest;
 import com.reechauto.usercenter.user.bean.req.resource.ResourceServerDeleteRequest;
 import com.reechauto.usercenter.user.bean.req.resource.ResourceServerQueryRequest;
 import com.reechauto.usercenter.user.bean.req.resource.ResourceServerUpdateRequest;
-import com.reechauto.usercenter.user.service.resource.ResourceService;
+import com.reechauto.usercenter.user.service.resource.ResourceServerService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("resourceServer")
 public class ResourceServerController {
 	@Autowired
-	private ResourceService resourceService;
+	private ResourceServerService resourceService;
 
 	/**
 	 * 新增资源服务器
@@ -48,8 +48,11 @@ public class ResourceServerController {
 	 * @return
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public ResponseData queryResourceServer(ResourceServerQueryRequest req) {
+	public ResponseData queryResourceServer(@Valid ResourceServerQueryRequest req, BindingResult result) {
 		log.info("资源服务器列表");
+		if (result.hasErrors()) {
+			return ResponseData.argumentsError().data(result.getAllErrors());
+		}
 		ResponseData responseData = resourceService.resourceServerList(req);
 		return responseData;
 	}

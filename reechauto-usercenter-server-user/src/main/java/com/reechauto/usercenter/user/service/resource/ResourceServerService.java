@@ -3,7 +3,6 @@ package com.reechauto.usercenter.user.service.resource;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.reechauto.usercenter.common.resp.ResponseData;
 import com.reechauto.usercenter.user.bean.req.resource.ResourceServerQueryRequest;
 import com.reechauto.usercenter.user.entity.ResourceServer;
@@ -12,7 +11,7 @@ import com.reechauto.usercenter.user.entity.ResourceServerExample.Criteria;
 import com.reechauto.usercenter.user.mapper.ResourceServerMapper;
 
 @Service
-public class ResourceService {
+public class ResourceServerService {
 	@Autowired
 	private ResourceServerMapper resourceServerMapper;
 
