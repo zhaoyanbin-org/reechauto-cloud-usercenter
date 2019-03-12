@@ -28,11 +28,10 @@ public class ClientDetailsController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	public ResponseData queryClientDetails(@Valid ClientDetailsQueryRequest req, BindingResult result) {
-		System.out.println("客户端详情列表");
 		log.info("客户端详情列表");
-		/*if (result.hasErrors()) {
+		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(result.getAllErrors());
-		}*/
+		}
 		ResponseData responseData = clientDetailsService.clientDetailsList(req);
 		return responseData;
 	}
@@ -57,7 +56,12 @@ public class ClientDetailsController {
 			return ResponseData.error("添加客户端失败！");
 		}
 	}
-	
+	/**
+	 * 修改客户端
+	 * @param req
+	 * @param result
+	 * @return
+	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public ResponseData updateClientDetails(@Valid ClientDetailsUpdateRequest req, BindingResult result) {
 		log.info("修改客户端");
@@ -72,6 +76,12 @@ public class ClientDetailsController {
 		}
 	}
 
+	/**
+	 * 删除客户端
+	 * @param req
+	 * @param result
+	 * @return
+	 */
 	@RequestMapping(value = "/del", method = RequestMethod.POST)
 	public ResponseData deleteClientDetails(@Valid ClientDetailsDeleteRequest req, BindingResult result) {
 		log.info("删除客户端");
