@@ -2,16 +2,12 @@ package com.reechauto.usercenter.user.service.user;
 
 import java.util.Date;
 import java.util.List;
-
 import javax.transaction.Transactional;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.reechauto.usercenter.common.utils.code.IdGenerator;
 import com.reechauto.usercenter.common.utils.date.DateUtil;
 import com.reechauto.usercenter.common.utils.regex.RegexUtil;

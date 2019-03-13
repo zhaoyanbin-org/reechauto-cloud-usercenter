@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.reechauto.usercenter.common.resp.ResponseData;
 import com.reechauto.usercenter.user.bean.req.clientDetails.ClientDetailsAddRequest;
@@ -20,6 +21,8 @@ public class ClientDetailsService {
 
 	@Autowired
 	private ClientDetailsMapper clientDetailsMapper;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	public ResponseData clientDetailsList(ClientDetailsQueryRequest req) {
 		ClientDetailsExample example = new ClientDetailsExample();
@@ -38,7 +41,7 @@ public class ClientDetailsService {
 			record.setResourceIds(req.getResourceIds());
 		}
 		if (StringUtils.isNotBlank(req.getClientSecret())) {
-			record.setClientSecret(req.getClientSecret());
+			record.setClientSecret(passwordEncoder.encode(req.getClientSecret()));
 		}
 		if (StringUtils.isNotBlank(req.getScope())) {
 			record.setScope(req.getScope());
