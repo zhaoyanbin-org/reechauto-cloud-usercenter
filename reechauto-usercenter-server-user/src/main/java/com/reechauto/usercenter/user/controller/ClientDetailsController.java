@@ -12,6 +12,9 @@ import com.reechauto.usercenter.user.bean.req.clientDetails.ClientDetailsAddRequ
 import com.reechauto.usercenter.user.bean.req.clientDetails.ClientDetailsDeleteRequest;
 import com.reechauto.usercenter.user.bean.req.clientDetails.ClientDetailsQueryRequest;
 import com.reechauto.usercenter.user.bean.req.clientDetails.ClientDetailsUpdateRequest;
+import com.reechauto.usercenter.user.bean.req.clientDetails.ResourceIdsAddRequest;
+import com.reechauto.usercenter.user.bean.req.clientDetails.ResourceIdsDeleteRequest;
+import com.reechauto.usercenter.user.bean.req.clientDetails.ResourceIdsUpdateRequest;
 import com.reechauto.usercenter.user.service.client.ClientDetailsService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -95,5 +98,61 @@ public class ClientDetailsController {
 			return ResponseData.error("删除客户端失败！");
 		}
 	}
-
+	/**
+	 * 在客户端中增加resourceId
+	 * @param req
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping(value = "/resourceIds/add", method = RequestMethod.POST)
+	public ResponseData addResourceIds(@Valid ResourceIdsAddRequest req, BindingResult result) {
+		log.info("在客户端中增加resourceId");
+		if (result.hasErrors()) {
+			return ResponseData.argumentsError().data(result.getAllErrors());
+		}
+		boolean flag = clientDetailsService.addResourceIds(req);
+		if (flag) {
+			return ResponseData.ok();
+		} else {
+			return ResponseData.error("添加资源服务器ID失败！");
+		}
+	}
+	/**
+	 * 在客户端中删除resourceId
+	 * @param req
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping(value = "/resourceIds/delete", method = RequestMethod.POST)
+	public ResponseData deleteResourceIds(@Valid ResourceIdsDeleteRequest req, BindingResult result) {
+		log.info("在客户端中删除resourceId");
+		if (result.hasErrors()) {
+			return ResponseData.argumentsError().data(result.getAllErrors());
+		}
+		boolean flag = clientDetailsService.deleteResourceIds(req);
+		if (flag) {
+			return ResponseData.ok();
+		} else {
+			return ResponseData.error("删除资源服务器ID失败！");
+		}
+	}
+	/**
+	 * 在客户端中修改resourceId
+	 * @param req
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping(value = "/resourceIds/update", method = RequestMethod.POST)
+	public ResponseData updateResourceIds(@Valid ResourceIdsUpdateRequest req, BindingResult result) {
+		log.info("在客户端中修改resourceId");
+		if (result.hasErrors()) {
+			return ResponseData.argumentsError().data(result.getAllErrors());
+		}
+		boolean flag = clientDetailsService.updateResourceIds(req);
+		if (flag) {
+			return ResponseData.ok();
+		} else {
+			return ResponseData.error("修改资源服务器ID失败！");
+		}
+	}
 }

@@ -1,7 +1,6 @@
 package com.reechauto.usercenter.user.service.client;
 
 import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,10 +10,14 @@ import com.reechauto.usercenter.user.bean.req.clientDetails.ClientDetailsAddRequ
 import com.reechauto.usercenter.user.bean.req.clientDetails.ClientDetailsDeleteRequest;
 import com.reechauto.usercenter.user.bean.req.clientDetails.ClientDetailsQueryRequest;
 import com.reechauto.usercenter.user.bean.req.clientDetails.ClientDetailsUpdateRequest;
+import com.reechauto.usercenter.user.bean.req.clientDetails.ResourceIdsAddRequest;
+import com.reechauto.usercenter.user.bean.req.clientDetails.ResourceIdsDeleteRequest;
+import com.reechauto.usercenter.user.bean.req.clientDetails.ResourceIdsUpdateRequest;
 import com.reechauto.usercenter.user.entity.ClientDetails;
 import com.reechauto.usercenter.user.entity.ClientDetailsExample;
 import com.reechauto.usercenter.user.entity.ClientDetailsExample.Criteria;
 import com.reechauto.usercenter.user.mapper.ClientDetailsMapper;
+
 
 @Service
 public class ClientDetailsService {
@@ -82,7 +85,7 @@ public class ClientDetailsService {
 			record.setResourceIds(req.getNewResourceIds());
 		}
 		if (StringUtils.isNotBlank(req.getNewClientSecret())) {
-			record.setClientSecret(req.getNewClientSecret());
+			record.setClientSecret(passwordEncoder.encode(req.getNewClientSecret()));
 		}
 		if (StringUtils.isNotBlank(req.getNewScope())) {
 		    record.setScope(req.getNewScope());
@@ -113,5 +116,81 @@ public class ClientDetailsService {
 	
 	public boolean deleteClientDetails(ClientDetailsDeleteRequest req) {
 		return clientDetailsMapper.deleteByPrimaryKey(req.getClientId())>0;
+	}
+	
+	public boolean addResourceIds(ResourceIdsAddRequest req) {
+		ClientDetailsExample example = new ClientDetailsExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andClientIdEqualTo(req.getClientId().trim());
+		ClientDetails record1 = clientDetailsMapper.selectByPrimaryKey(req.getClientId().trim());
+		String resourceIds = record1.getResourceIds()==null?"":record1.getResourceIds();
+		String[] resourceIds3 = resourceIds.split(",");
+		for(int i = 0;i<resourceIds3.length;i++) {
+			if (resourceIds3[i].equalsIgnoreCase(req.getResourceId())) {
+				throw new RuntimeException("该资源ID已存在");
+			}
+		}
+		StringBuffer resourceIds1 = new StringBuffer(resourceIds);
+		if ("".equals(resourceIds)) {
+			resourceIds1.append(req.getResourceId());
+		}else {
+			resourceIds1.append(",").append(req.getResourceId());
+		}
+		String resourceIds2 = new String(resourceIds1);
+		ClientDetails record = new ClientDetails();
+		record.setResourceIds(resourceIds2);
+		return clientDetailsMapper.updateByExampleSelective(record,example)>0;
+	}
+	
+	public boolean deleteResourceIds(ResourceIdsDeleteRequest req) {
+		ClientDetailsExample example = new ClientDetailsExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andClientIdEqualTo(req.getClientId().trim());
+		ClientDetails record1 = clientDetailsMapper.selectByPrimaryKey(req.getClientId().trim());
+		String resourceIds = record1.getResourceIds()==null?"":record1.getResourceIds();
+		String[] resourceIds2 = resourceIds.split(",");
+		StringBuffer resourceIds1 = new StringBuffer();
+		for(int i = 0;i<resourceIds2.length;i++) {
+			if (!resourceIds2[i].equalsIgnoreCase(req.getResourceId().trim())) {
+				if (i==0||i==1&&StringUtils.isBlank(new String(resourceIds1))) {
+					resourceIds1.append(resourceIds2[i]);
+				}else {
+					resourceIds1.append(",").append(resourceIds2[i]);
+				}
+			}
+		}
+		String resourceIds3 = new String(resourceIds1);
+		ClientDetails record = new ClientDetails();
+		record.setResourceIds(resourceIds3);
+		return clientDetailsMapper.updateByExampleSelective(record,example)>0;
+	}
+	
+	public boolean updateResourceIds(ResourceIdsUpdateRequest req) {
+		ClientDetailsExample example = new ClientDetailsExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andClientIdEqualTo(req.getClientId().trim());
+		ClientDetails record1 = clientDetailsMapper.selectByPrimaryKey(req.getClientId().trim());
+		String resourceIds = record1.getResourceIds()==null?"":record1.getResourceIds();
+		String[] resourceIds2 = resourceIds.split(",");
+		StringBuffer resourceIds1 = new StringBuffer();
+		for(int i = 0;i<resourceIds2.length;i++) {
+			if (!resourceIds2[i].equalsIgnoreCase(req.getOldResourceId().trim())) {
+				if (i==0||i==1&&StringUtils.isBlank(new String(resourceIds1))) {
+					resourceIds1.append(resourceIds2[i]);
+				}else {
+					resourceIds1.append(",").append(resourceIds2[i]);
+				}
+			}else {
+				if (i==0||i==1&&StringUtils.isBlank(new String(resourceIds1))) {
+					resourceIds1.append(req.getNewResourceId());
+				}else {
+					resourceIds1.append(",").append(req.getNewResourceId());
+				}
+			}
+		}
+		String resourceIds3 = new String(resourceIds1);
+		ClientDetails record = new ClientDetails();
+		record.setResourceIds(resourceIds3);
+		return clientDetailsMapper.updateByExampleSelective(record,example)>0;
 	}
 }
