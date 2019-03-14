@@ -13,6 +13,9 @@ import com.reechauto.usercenter.user.bean.req.clientDetails.ClientDetailsUpdateR
 import com.reechauto.usercenter.user.bean.req.clientDetails.ResourceIdsAddRequest;
 import com.reechauto.usercenter.user.bean.req.clientDetails.ResourceIdsDeleteRequest;
 import com.reechauto.usercenter.user.bean.req.clientDetails.ResourceIdsUpdateRequest;
+import com.reechauto.usercenter.user.bean.req.clientDetails.ScopeAddRequest;
+import com.reechauto.usercenter.user.bean.req.clientDetails.ScopeDeleteRequest;
+import com.reechauto.usercenter.user.bean.req.clientDetails.ScopeUpdateRequest;
 import com.reechauto.usercenter.user.entity.ClientDetails;
 import com.reechauto.usercenter.user.entity.ClientDetailsExample;
 import com.reechauto.usercenter.user.entity.ClientDetailsExample.Criteria;
@@ -191,6 +194,81 @@ public class ClientDetailsService {
 		String resourceIds3 = new String(resourceIds1);
 		ClientDetails record = new ClientDetails();
 		record.setResourceIds(resourceIds3);
+		return clientDetailsMapper.updateByExampleSelective(record,example)>0;
+	}
+	public boolean addScope(ScopeAddRequest req) {
+		ClientDetailsExample example = new ClientDetailsExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andClientIdEqualTo(req.getClientId().trim());
+		ClientDetails record1 = clientDetailsMapper.selectByPrimaryKey(req.getClientId().trim());
+		String scopes = record1.getScope()==null?"":record1.getScope();
+		String[] scopes3 = scopes.split(",");
+		for(int i = 0;i<scopes3.length;i++) {
+			if (scopes3[i].equalsIgnoreCase(req.getScope())) {
+				throw new RuntimeException("该scope已存在");
+			}
+		}
+		StringBuffer scopes1 = new StringBuffer(scopes);
+		if ("".equals(scopes)) {
+			scopes1.append(req.getScope());
+		}else {
+			scopes1.append(",").append(req.getScope());
+		}
+		String scopes2 = new String(scopes1);
+		ClientDetails record = new ClientDetails();
+		record.setScope(scopes2);
+		return clientDetailsMapper.updateByExampleSelective(record,example)>0;
+	}
+	
+	public boolean deleteScope(ScopeDeleteRequest req) {
+		ClientDetailsExample example = new ClientDetailsExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andClientIdEqualTo(req.getClientId().trim());
+		ClientDetails record1 = clientDetailsMapper.selectByPrimaryKey(req.getClientId().trim());
+		String scopes = record1.getScope()==null?"":record1.getScope();
+		String[] scopes2 = scopes.split(",");
+		StringBuffer scopes1 = new StringBuffer();
+		for(int i = 0;i<scopes2.length;i++) {
+			if (!scopes2[i].equalsIgnoreCase(req.getScope().trim())) {
+				if (i==0||i==1&&StringUtils.isBlank(new String(scopes1))) {
+					scopes1.append(scopes2[i]);
+				}else {
+					scopes1.append(",").append(scopes2[i]);
+				}
+			}
+		}
+		String scopes3 = new String(scopes1);
+		ClientDetails record = new ClientDetails();
+		record.setScope(scopes3);
+		return clientDetailsMapper.updateByExampleSelective(record,example)>0;
+	}
+	
+	public boolean updateScope(ScopeUpdateRequest req) {
+		ClientDetailsExample example = new ClientDetailsExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andClientIdEqualTo(req.getClientId().trim());
+		ClientDetails record1 = clientDetailsMapper.selectByPrimaryKey(req.getClientId().trim());
+		String scopes = record1.getScope()==null?"":record1.getScope();
+		String[] scopes2 = scopes.split(",");
+		StringBuffer scopes1 = new StringBuffer();
+		for(int i = 0;i<scopes2.length;i++) {
+			if (!scopes2[i].equalsIgnoreCase(req.getOldScope().trim())) {
+				if (i==0||i==1&&StringUtils.isBlank(new String(scopes1))) {
+					scopes1.append(scopes2[i]);
+				}else {
+					scopes1.append(",").append(scopes2[i]);
+				}
+			}else {
+				if (i==0||i==1&&StringUtils.isBlank(new String(scopes1))) {
+					scopes1.append(req.getNewScope());
+				}else {
+					scopes1.append(",").append(req.getNewScope());
+				}
+			}
+		}
+		String scopes3 = new String(scopes1);
+		ClientDetails record = new ClientDetails();
+		record.setScope(scopes3);
 		return clientDetailsMapper.updateByExampleSelective(record,example)>0;
 	}
 }

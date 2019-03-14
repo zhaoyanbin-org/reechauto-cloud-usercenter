@@ -15,6 +15,9 @@ import com.reechauto.usercenter.user.bean.req.clientDetails.ClientDetailsUpdateR
 import com.reechauto.usercenter.user.bean.req.clientDetails.ResourceIdsAddRequest;
 import com.reechauto.usercenter.user.bean.req.clientDetails.ResourceIdsDeleteRequest;
 import com.reechauto.usercenter.user.bean.req.clientDetails.ResourceIdsUpdateRequest;
+import com.reechauto.usercenter.user.bean.req.clientDetails.ScopeAddRequest;
+import com.reechauto.usercenter.user.bean.req.clientDetails.ScopeDeleteRequest;
+import com.reechauto.usercenter.user.bean.req.clientDetails.ScopeUpdateRequest;
 import com.reechauto.usercenter.user.service.client.ClientDetailsService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -114,7 +117,7 @@ public class ClientDetailsController {
 		if (flag) {
 			return ResponseData.ok();
 		} else {
-			return ResponseData.error("添加资源服务器ID失败！");
+			return ResponseData.error("在客户端中增加resourceId失败！");
 		}
 	}
 	/**
@@ -133,7 +136,7 @@ public class ClientDetailsController {
 		if (flag) {
 			return ResponseData.ok();
 		} else {
-			return ResponseData.error("删除资源服务器ID失败！");
+			return ResponseData.error("在客户端中删除resourceId失败！");
 		}
 	}
 	/**
@@ -152,7 +155,67 @@ public class ClientDetailsController {
 		if (flag) {
 			return ResponseData.ok();
 		} else {
-			return ResponseData.error("修改资源服务器ID失败！");
+			return ResponseData.error("在客户端中修改resourceId失败！");
+		}
+	}
+	
+	/**
+	 * 在客户端中增加scope
+	 * @param req
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping(value = "/scope/add", method = RequestMethod.POST)
+	public ResponseData addScope(@Valid ScopeAddRequest req, BindingResult result) {
+		log.info("在客户端中增加scope");
+		if (result.hasErrors()) {
+			return ResponseData.argumentsError().data(result.getAllErrors());
+		}
+		boolean flag = clientDetailsService.addScope(req);
+		if (flag) {
+			return ResponseData.ok();
+		} else {
+			return ResponseData.error("在客户端中增加scope失败！");
+		}
+	}
+	
+	/**
+	 * 在客户端中删除resourceId
+	 * @param req
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping(value = "/scope/delete", method = RequestMethod.POST)
+	public ResponseData deleteScope(@Valid ScopeDeleteRequest req, BindingResult result) {
+		log.info("在客户端中删除scope");
+		if (result.hasErrors()) {
+			return ResponseData.argumentsError().data(result.getAllErrors());
+		}
+		boolean flag = clientDetailsService.deleteScope(req);
+		if (flag) {
+			return ResponseData.ok();
+		} else {
+			return ResponseData.error("在客户端中删除scope失败！");
+		}
+	}
+	
+	/**
+	 * 在客户端中修改scope
+	 * @param req
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping(value = "/scope/update", method = RequestMethod.POST)
+	public ResponseData updateScope(@Valid ScopeUpdateRequest req, BindingResult result) {
+		log.info("在客户端中修改scope");
+		if (result.hasErrors()) {
+			return ResponseData.argumentsError().data(result.getAllErrors());
+		}
+		boolean flag = clientDetailsService.updateScope(req);
+		if (flag) {
+			return ResponseData.ok();
+		} else {
+			return ResponseData.error("在客户端中修改scope失败！");
 		}
 	}
 }
