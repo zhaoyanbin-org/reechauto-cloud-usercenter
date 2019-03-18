@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.reechauto.usercenter.common.resp.ResponseData;
+import com.reechauto.usercenter.user.bean.req.clientDetails.AuthorizedGrantTypesAddRequest;
+import com.reechauto.usercenter.user.bean.req.clientDetails.AuthorizedGrantTypesDeleteRequest;
+import com.reechauto.usercenter.user.bean.req.clientDetails.AuthorizedGrantTypesUpdateRequest;
 import com.reechauto.usercenter.user.bean.req.clientDetails.ClientDetailsAddRequest;
 import com.reechauto.usercenter.user.bean.req.clientDetails.ClientDetailsDeleteRequest;
 import com.reechauto.usercenter.user.bean.req.clientDetails.ClientDetailsQueryRequest;
@@ -269,6 +272,82 @@ public class ClientDetailsService {
 		String scopes3 = new String(scopes1);
 		ClientDetails record = new ClientDetails();
 		record.setScope(scopes3);
+		return clientDetailsMapper.updateByExampleSelective(record,example)>0;
+	}
+	
+	public boolean addAuthorizedGrantTypes(AuthorizedGrantTypesAddRequest req) {
+		ClientDetailsExample example = new ClientDetailsExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andClientIdEqualTo(req.getClientId().trim());
+		ClientDetails record1 = clientDetailsMapper.selectByPrimaryKey(req.getClientId().trim());
+		String authorizedGrantTypes = record1.getAuthorizedGrantTypes()==null?"":record1.getAuthorizedGrantTypes();
+		String[] authorizedGrantTypes3 = authorizedGrantTypes.split(",");
+		for(int i = 0;i<authorizedGrantTypes3.length;i++) {
+			if (authorizedGrantTypes3[i].equalsIgnoreCase(req.getAuthorizedGrantType().trim())) {
+				throw new RuntimeException("该authorizedGrantType已存在");
+			}
+		}
+		StringBuffer authorizedGrantTypes1 = new StringBuffer(authorizedGrantTypes);
+		if ("".equals(authorizedGrantTypes)) {
+			authorizedGrantTypes1.append(req.getAuthorizedGrantType());
+		}else {
+			authorizedGrantTypes1.append(",").append(req.getAuthorizedGrantType());
+		}
+		String authorizedGrantTypes2 = new String(authorizedGrantTypes1);
+		ClientDetails record = new ClientDetails();
+		record.setAuthorizedGrantTypes(authorizedGrantTypes2);
+		return clientDetailsMapper.updateByExampleSelective(record,example)>0;
+	}
+	
+	public boolean deleteAuthorizedGrantTypes(AuthorizedGrantTypesDeleteRequest req) {
+		ClientDetailsExample example = new ClientDetailsExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andClientIdEqualTo(req.getClientId().trim());
+		ClientDetails record1 = clientDetailsMapper.selectByPrimaryKey(req.getClientId().trim());
+		String authorizedGrantTypes = record1.getAuthorizedGrantTypes()==null?"":record1.getAuthorizedGrantTypes();
+		String[] authorizedGrantTypes2 = authorizedGrantTypes.split(",");
+		StringBuffer authorizedGrantTypes1 = new StringBuffer();
+		for(int i = 0;i<authorizedGrantTypes2.length;i++) {
+			if (!authorizedGrantTypes2[i].equalsIgnoreCase(req.getAuthorizedGrantType().trim())) {
+				if (i==0||i==1&&StringUtils.isBlank(new String(authorizedGrantTypes1))) {
+					authorizedGrantTypes1.append(authorizedGrantTypes2[i]);
+				}else {
+					authorizedGrantTypes1.append(",").append(authorizedGrantTypes2[i]);
+				}
+			}
+		}
+		String authorizedGrantTypes3 = new String(authorizedGrantTypes1);
+		ClientDetails record = new ClientDetails();
+		record.setAuthorizedGrantTypes(authorizedGrantTypes3);
+		return clientDetailsMapper.updateByExampleSelective(record,example)>0;
+	}
+	
+	public boolean updateAuthorizedGrantTypes(AuthorizedGrantTypesUpdateRequest req) {
+		ClientDetailsExample example = new ClientDetailsExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andClientIdEqualTo(req.getClientId().trim());
+		ClientDetails record1 = clientDetailsMapper.selectByPrimaryKey(req.getClientId().trim());
+		String authorizedGrantTypes = record1.getAuthorizedGrantTypes()==null?"":record1.getAuthorizedGrantTypes();
+		String[] authorizedGrantTypes2 = authorizedGrantTypes.split(",");
+		StringBuffer authorizedGrantTypes1 = new StringBuffer();
+		for(int i = 0;i<authorizedGrantTypes2.length;i++) {
+			if (!authorizedGrantTypes2[i].equalsIgnoreCase(req.getOldAuthorizedGrantType().trim())) {
+				if (i==0||i==1&&StringUtils.isBlank(new String(authorizedGrantTypes1))) {
+					authorizedGrantTypes1.append(authorizedGrantTypes2[i]);
+				}else {
+					authorizedGrantTypes1.append(",").append(authorizedGrantTypes2[i]);
+				}
+			}else {
+				if (i==0||i==1&&StringUtils.isBlank(new String(authorizedGrantTypes1))) {
+					authorizedGrantTypes1.append(req.getNewAuthorizedGrantType());
+				}else {
+					authorizedGrantTypes1.append(",").append(req.getNewAuthorizedGrantType());
+				}
+			}
+		}
+		String authorizedGrantTypes3 = new String(authorizedGrantTypes1);
+		ClientDetails record = new ClientDetails();
+		record.setAuthorizedGrantTypes(authorizedGrantTypes3);
 		return clientDetailsMapper.updateByExampleSelective(record,example)>0;
 	}
 }

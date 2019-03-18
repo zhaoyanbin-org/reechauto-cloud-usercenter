@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.reechauto.usercenter.common.resp.ResponseData;
+import com.reechauto.usercenter.user.bean.req.clientDetails.AuthorizedGrantTypesAddRequest;
+import com.reechauto.usercenter.user.bean.req.clientDetails.AuthorizedGrantTypesDeleteRequest;
+import com.reechauto.usercenter.user.bean.req.clientDetails.AuthorizedGrantTypesUpdateRequest;
 import com.reechauto.usercenter.user.bean.req.clientDetails.ClientDetailsAddRequest;
 import com.reechauto.usercenter.user.bean.req.clientDetails.ClientDetailsDeleteRequest;
 import com.reechauto.usercenter.user.bean.req.clientDetails.ClientDetailsQueryRequest;
@@ -216,6 +219,66 @@ public class ClientDetailsController {
 			return ResponseData.ok();
 		} else {
 			return ResponseData.error("在客户端中修改scope失败！");
+		}
+	}
+	
+	/**
+	 * 在客户端中增加AuthorizedGrantTypes
+	 * @param req
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping(value = "/authorizedGrantTypes/add", method = RequestMethod.POST)
+	public ResponseData addAuthorizedGrantTypes(@Valid AuthorizedGrantTypesAddRequest req, BindingResult result) {
+		log.info("在客户端中增加authorizedGrantType");
+		if (result.hasErrors()) {
+			return ResponseData.argumentsError().data(result.getAllErrors());
+		}
+		boolean flag = clientDetailsService.addAuthorizedGrantTypes(req);
+		if (flag) {
+			return ResponseData.ok();
+		} else {
+			return ResponseData.error("在客户端中增加AuthorizedGrantType失败！");
+		}
+	}
+	
+	/**
+	 * 在客户端中删除AuthorizedGrantTypes
+	 * @param req
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping(value = "/authorizedGrantTypes/delete", method = RequestMethod.POST)
+	public ResponseData deleteAuthorizedGrantTypes(@Valid AuthorizedGrantTypesDeleteRequest req, BindingResult result) {
+		log.info("在客户端中删除authorizedGrantTypes");
+		if (result.hasErrors()) {
+			return ResponseData.argumentsError().data(result.getAllErrors());
+		}
+		boolean flag = clientDetailsService.deleteAuthorizedGrantTypes(req);
+		if (flag) {
+			return ResponseData.ok();
+		} else {
+			return ResponseData.error("在客户端中删除AuthorizedGrantType失败！");
+		}
+	}
+	
+	/**
+	 * 在客户端中修改AuthorizedGrantTypes
+	 * @param req
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping(value = "/authorizedGrantTypes/update", method = RequestMethod.POST)
+	public ResponseData updateAuthorizedGrantTypes(@Valid AuthorizedGrantTypesUpdateRequest req, BindingResult result) {
+		log.info("在客户端中修改AuthorizedGrantTypes");
+		if (result.hasErrors()) {
+			return ResponseData.argumentsError().data(result.getAllErrors());
+		}
+		boolean flag = clientDetailsService.updateAuthorizedGrantTypes(req);
+		if (flag) {
+			return ResponseData.ok();
+		} else {
+			return ResponseData.error("在客户端中修改AuthorizedGrantTypes失败！");
 		}
 	}
 }

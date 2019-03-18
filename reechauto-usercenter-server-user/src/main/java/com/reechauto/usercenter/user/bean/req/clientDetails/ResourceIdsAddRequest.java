@@ -9,7 +9,7 @@ public class ResourceIdsAddRequest extends BaseRequest {
 	
 	@NotBlank(message = "clientId不可以为空")
 	private String clientId;
-	@NotBlank(message = "resourceIds不可以为空")
+	@NotBlank(message = "resourceId不可以为空")
 	private String resourceId;
 	public String getClientId() {
 		return clientId;
