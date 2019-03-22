@@ -44,6 +44,25 @@ public class UserMapper implements Serializable {
 		return reechUser;
 	}
 	
+	public ReechUser getReechUserByUserId(Long userId) {
+		String sql2 = "SELECT user_id,password,real_name,nick_name,sex,birthday,img_url,city,user_status,is_del FROM user_details a WHERE a.user_id=? ";
+		RowMapper<ReechUser> rowMapper2 = new BeanPropertyRowMapper<ReechUser>(ReechUser.class);
+		ReechUser reechUser = this.jdbcTemplate.queryForObject(sql2, rowMapper2, userId);
+		if (reechUser == null) {
+			throw new UnapprovedClientAuthenticationException("错误的用户ID");
+		}
+
+		String sql1 = "SELECT account_num,account_type,user_id FROM user_account WHERE user_id=?";
+		RowMapper<ReechUserAccount> rowMapper = new BeanPropertyRowMapper<ReechUserAccount>(ReechUserAccount.class);
+		List<ReechUserAccount> list = this.jdbcTemplate.query(sql1, rowMapper, reechUser.getUserId());
+		if (CollectionUtils.isEmpty(list)) {
+			throw new UnapprovedClientAuthenticationException("错误的用户ID");
+		}
+
+		reechUser.setAccountInfo(list);
+		return reechUser;
+	}
+	
 	/**
 	 * 查询角色
 	 * @param userId

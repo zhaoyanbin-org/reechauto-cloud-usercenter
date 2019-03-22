@@ -26,7 +26,7 @@ public class UserController {
 	@RequestMapping("/userinfo")
 	public ResponseData userInfo() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		ReechUser user = userMapper.getReechUser(authentication.getName());
+		ReechUser user = userMapper.getReechUserByUserId(Long.parseLong(authentication.getName()));
 		return ResponseData.ok().data(user);
 	}
 
