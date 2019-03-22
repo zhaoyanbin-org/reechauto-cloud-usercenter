@@ -39,7 +39,7 @@ public class ReechUserDetailsService implements UserDetailsService {
 		List<SysRole> roleList = queryRole(reechUser.getUserId());
 		List<GrantedAuthority> authorityList = convertToAuthorities(roleList);
 		
-		User user = new User(username, reechUser.getPassword(), isActive(reechUser.getIsDel()), true, true,
+		User user = new User(reechUser.getUserId()+"", reechUser.getPassword(), isActive(reechUser.getIsDel()), true, true,
 				isLock(reechUser.getUserStatus()), authorityList);
 		
 		 //AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADMIN")

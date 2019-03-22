@@ -1,9 +1,11 @@
 package com.reechauto.usercenter.auth.service.oauth2;
 
 import java.io.IOException;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.codec.Base64;
@@ -22,7 +24,7 @@ public class ClientVerifyService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	public ClientDetails verifyClientHeader(HttpServletRequest request) throws IOException {
+	public ClientDetails verifyClientHeader(HttpServletRequest request,String grantType) throws IOException {
 		String header = request.getHeader("Authorization");
 		if (header == null || !header.startsWith("Basic ")) {
 			throw new UnapprovedClientAuthenticationException("请求头中无client信息");
@@ -40,6 +42,19 @@ public class ClientVerifyService {
 		} else if (!passwordEncoder.matches(clientSecret, clientDetails.getClientSecret())) {
 			throw new UnapprovedClientAuthenticationException("clientSecret 不匹配" + clientId);
 		}
+		boolean flag = false;
+		Set<String> grantTypes =clientDetails.getAuthorizedGrantTypes();
+		if(CollectionUtils.isNotEmpty(grantTypes)) {
+			for (String gt : grantTypes) {
+				if(gt.equalsIgnoreCase(grantType.trim())) {
+					flag=true;
+				}
+			}
+		}
+		if(!flag) {
+			throw new UnapprovedClientAuthenticationException("clientId 对应的grantType 不包括mobile登录" + clientId);
+		} 
+		
 		return clientDetails;
 	}
 	
@@ -61,6 +76,8 @@ public class ClientVerifyService {
 		} else if (!passwordEncoder.matches(clientSecret, clientDetails.getClientSecret())) {
 			throw new UnapprovedClientAuthenticationException("clientSecret 不匹配" + clientId);
 		}
+		
+		
 		return clientDetails;
 	}
 

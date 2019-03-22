@@ -29,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component("mobileAuthenticationSuccessHandler")
 public class MobileAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
+	public static final String GRANTTYPE = "mobile";
 	@Autowired
 	private ObjectMapper objectMapper;
 	
@@ -42,9 +43,9 @@ public class MobileAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws ServletException, IOException {
 
-		ClientDetails clientDetails = clientVerifyService.verifyClientHeader(request);
+		ClientDetails clientDetails = clientVerifyService.verifyClientHeader(request,GRANTTYPE);
 
-		TokenRequest tokenRequest = new TokenRequest(new HashMap<>(), clientDetails.getClientId(), clientDetails.getScope(), "mobile");
+		TokenRequest tokenRequest = new TokenRequest(new HashMap<>(), clientDetails.getClientId(), clientDetails.getScope(), GRANTTYPE);
 		OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
 		OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
 		OAuth2AccessToken token = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
