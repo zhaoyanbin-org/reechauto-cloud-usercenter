@@ -107,11 +107,11 @@ public class UserServer {
 				throw new RuntimeException("绑定手机格式不正确");
 		}
 		if (accountType.equals(AccountType.idcard)) {
-			if (RegexUtil.checkIdCard(accountNum))
+			if (!RegexUtil.checkIdCard(accountNum))
 				throw new RuntimeException("绑定身份证号码不正确");
 		}
 		if (accountType.equals(AccountType.account)) {
-			if (RegexUtil.checkAccount(accountNum))
+			if (!RegexUtil.checkAccount(accountNum))
 				throw new RuntimeException("帐号不能由数字开头，应由4-10位的字母,数字,下划线组成");
 		}
 		UserAccountExample example = new UserAccountExample();
@@ -159,11 +159,11 @@ public class UserServer {
 				throw new RuntimeException("绑定手机格式不正确");
 		}
 		if (accountType.equals(AccountType.idcard)) {
-			if (RegexUtil.checkIdCard(accountNum))
+			if (!RegexUtil.checkIdCard(accountNum))
 				throw new RuntimeException("绑定身份证号码不正确");
 		}
 		if (accountType.equals(AccountType.account)) {
-			if (RegexUtil.checkAccount(accountNum))
+			if (!RegexUtil.checkAccount(accountNum))
 				throw new RuntimeException("帐号不能由数字开头，应由4-10位的字母,数字,下划线组成");
 		}
 		UserAccountExample example = new UserAccountExample();
