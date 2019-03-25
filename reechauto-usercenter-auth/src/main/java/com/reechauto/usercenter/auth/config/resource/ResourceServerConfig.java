@@ -41,7 +41,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		 http.requestMatchers().antMatchers("/mobile/token","/logout/**","/user","/userinfo")
+		 http.requestMatchers().antMatchers("/mobile/token","/logout/**","/user","/userinfo","/user2")
          .and()
          .exceptionHandling().accessDeniedHandler(reechAccessDeniedHandler).authenticationEntryPoint(reechAuthenticationEntryPoint)
          .and()

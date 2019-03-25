@@ -4,13 +4,12 @@ import java.security.Principal;
 
 import javax.annotation.Resource;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.reechauto.usercenter.auth.entity.user.ReechUser;
 import com.reechauto.usercenter.auth.mapper.UserMapper;
+import com.reechauto.usercenter.auth.service.oauth2.SecurityUtils;
 import com.reechauto.usercenter.common.resp.ResponseData;
 
 @RestController
@@ -25,9 +24,13 @@ public class UserController {
 	
 	@RequestMapping("/userinfo")
 	public ResponseData userInfo() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		ReechUser user = userMapper.getReechUserByUserId(Long.parseLong(authentication.getName()));
+		ReechUser user = SecurityUtils.getCurrentUser();
 		return ResponseData.ok().data(user);
+	}
+	
+	@RequestMapping("/user2")
+	public ReechUser user2() {
+		return SecurityUtils.getCurrentUser();
 	}
 
 }
