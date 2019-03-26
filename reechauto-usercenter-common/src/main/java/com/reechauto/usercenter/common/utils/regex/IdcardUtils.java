@@ -701,7 +701,8 @@ public class IdcardUtils extends StringUtils{
     }  
    
     public static void main(String[] args) {   //测试
-        String idCard = "写你的身份证号";  
+        String idCard = "你的身份证号";  
+        System.out.println(IdcardUtils.validateCard(idCard));  
         System.out.println(IdcardUtils.getGenderByIdCard(idCard));  
         System.out.println("生日"+IdcardUtils.getBirthByIdCard(idCard));  
         System.out.println("生日月份"+IdcardUtils.getMonthByIdCard(idCard));  
