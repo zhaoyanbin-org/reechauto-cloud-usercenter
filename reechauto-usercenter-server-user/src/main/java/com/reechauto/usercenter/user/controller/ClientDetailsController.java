@@ -7,6 +7,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.reechauto.usercenter.common.error.ErrorsUtil;
 import com.reechauto.usercenter.common.resp.ResponseData;
 import com.reechauto.usercenter.user.bean.req.clientDetails.AuthorizedGrantTypesAddRequest;
 import com.reechauto.usercenter.user.bean.req.clientDetails.AuthorizedGrantTypesDeleteRequest;
@@ -39,7 +41,7 @@ public class ClientDetailsController {
 	public ResponseData queryClientDetails(@Valid ClientDetailsQueryRequest req, BindingResult result) {
 		log.info("客户端详情列表");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = clientDetailsService.clientDetailsList(req);
 		return responseData;
@@ -56,7 +58,7 @@ public class ClientDetailsController {
 	public ResponseData addClientDetails(@Valid ClientDetailsAddRequest req, BindingResult result) {
 		log.info("新增客户端");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = clientDetailsService.addClientDetails(req);
 		if (flag) {
@@ -75,7 +77,7 @@ public class ClientDetailsController {
 	public ResponseData updateClientDetails(@Valid ClientDetailsUpdateRequest req, BindingResult result) {
 		log.info("修改客户端");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = clientDetailsService.updateClientDetails(req);
 		if (flag) {
@@ -95,7 +97,7 @@ public class ClientDetailsController {
 	public ResponseData deleteClientDetails(@Valid ClientDetailsDeleteRequest req, BindingResult result) {
 		log.info("删除客户端");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = clientDetailsService.deleteClientDetails(req);
 		if (flag) {
@@ -114,7 +116,7 @@ public class ClientDetailsController {
 	public ResponseData addResourceIds(@Valid ResourceIdsAddRequest req, BindingResult result) {
 		log.info("在客户端中增加resourceId");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = clientDetailsService.addResourceIds(req);
 		if (flag) {
@@ -133,7 +135,7 @@ public class ClientDetailsController {
 	public ResponseData deleteResourceIds(@Valid ResourceIdsDeleteRequest req, BindingResult result) {
 		log.info("在客户端中删除resourceId");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = clientDetailsService.deleteResourceIds(req);
 		if (flag) {
@@ -152,7 +154,7 @@ public class ClientDetailsController {
 	public ResponseData updateResourceIds(@Valid ResourceIdsUpdateRequest req, BindingResult result) {
 		log.info("在客户端中修改resourceId");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = clientDetailsService.updateResourceIds(req);
 		if (flag) {
@@ -172,7 +174,7 @@ public class ClientDetailsController {
 	public ResponseData addScope(@Valid ScopeAddRequest req, BindingResult result) {
 		log.info("在客户端中增加scope");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = clientDetailsService.addScope(req);
 		if (flag) {
@@ -192,7 +194,7 @@ public class ClientDetailsController {
 	public ResponseData deleteScope(@Valid ScopeDeleteRequest req, BindingResult result) {
 		log.info("在客户端中删除scope");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = clientDetailsService.deleteScope(req);
 		if (flag) {
@@ -212,7 +214,7 @@ public class ClientDetailsController {
 	public ResponseData updateScope(@Valid ScopeUpdateRequest req, BindingResult result) {
 		log.info("在客户端中修改scope");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = clientDetailsService.updateScope(req);
 		if (flag) {
@@ -232,7 +234,7 @@ public class ClientDetailsController {
 	public ResponseData addAuthorizedGrantTypes(@Valid AuthorizedGrantTypesAddRequest req, BindingResult result) {
 		log.info("在客户端中增加authorizedGrantType");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = clientDetailsService.addAuthorizedGrantTypes(req);
 		if (flag) {
@@ -252,7 +254,7 @@ public class ClientDetailsController {
 	public ResponseData deleteAuthorizedGrantTypes(@Valid AuthorizedGrantTypesDeleteRequest req, BindingResult result) {
 		log.info("在客户端中删除authorizedGrantTypes");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = clientDetailsService.deleteAuthorizedGrantTypes(req);
 		if (flag) {
@@ -272,7 +274,7 @@ public class ClientDetailsController {
 	public ResponseData updateAuthorizedGrantTypes(@Valid AuthorizedGrantTypesUpdateRequest req, BindingResult result) {
 		log.info("在客户端中修改AuthorizedGrantTypes");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = clientDetailsService.updateAuthorizedGrantTypes(req);
 		if (flag) {

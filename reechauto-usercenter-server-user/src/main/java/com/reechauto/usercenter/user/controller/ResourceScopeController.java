@@ -6,6 +6,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.reechauto.usercenter.common.error.ErrorsUtil;
 import com.reechauto.usercenter.common.resp.ResponseData;
 import com.reechauto.usercenter.user.bean.req.resource.ResourceScopeAddRequest;
 import com.reechauto.usercenter.user.bean.req.resource.ResourceScopeDeleteRequest;
@@ -33,7 +35,7 @@ public class ResourceScopeController {
 	public ResponseData addResourceScope(@Valid ResourceScopeAddRequest req, BindingResult result) {
 		log.info("新增资源范围");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = resourceScopeService.addResourceScope(req.getScope(),req.getScopeTips(),req.getResourceId());
 		if (flag) {
@@ -47,8 +49,11 @@ public class ResourceScopeController {
 	 * @return
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public ResponseData queryResourceScope(ResourceScopeQueryRequest req) {
+	public ResponseData queryResourceScope(@Valid ResourceScopeQueryRequest req,BindingResult result) {
 		log.info("资源范围列表");
+		if (result.hasErrors()) {
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
+		}
 		ResponseData res = resourceScopeService.resourceScopeList(req);
 		return res;
 	}
@@ -62,7 +67,7 @@ public class ResourceScopeController {
 	public ResponseData updateResourceScope(@Valid ResourceScopeUpdateRequest req, BindingResult result) {
 		log.info("修改资源范围");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = resourceScopeService.updateResourceScope(req);
 		if (flag) {
@@ -81,7 +86,7 @@ public class ResourceScopeController {
 	public ResponseData deleteResourceScope(@Valid ResourceScopeDeleteRequest req, BindingResult result) {
 		log.info("删除资源范围");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = resourceScopeService.deleteResourceScope(req.getId());
 		if (flag) {
@@ -100,7 +105,7 @@ public class ResourceScopeController {
 	public ResponseData deleteScope(@Valid ScopeDeleteRequest req, BindingResult result) {
 		log.info("删除资源范围resourceScope中的一个scope");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = resourceScopeService.deleteScope(req);
 		if (flag) {
@@ -119,7 +124,7 @@ public class ResourceScopeController {
 	public ResponseData addScope(@Valid ScopeAddRequest req, BindingResult result) {
 		log.info("增加资源范围resourceScope中的一个scope");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = resourceScopeService.addScope(req);
 		if (flag) {
@@ -138,7 +143,7 @@ public class ResourceScopeController {
 	public ResponseData updateScope(@Valid ScopeUpdateRequest req, BindingResult result) {
 		log.info("修改资源范围resourceScope中的一个scope");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = resourceScopeService.updateScope(req);
 		if (flag) {

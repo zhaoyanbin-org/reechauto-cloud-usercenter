@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.reechauto.usercenter.common.error.ErrorsUtil;
 import com.reechauto.usercenter.common.resp.ResponseData;
 import com.reechauto.usercenter.user.bean.UserEntity;
 import com.reechauto.usercenter.user.bean.enums.AccountType;
@@ -36,7 +37,7 @@ public class UserController {
 	public ResponseData registerUser(@Valid UserRegisterReq req, BindingResult result) {
 		log.info("注册新用户");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		Long userId = userServer.registerUser(req.getAccountNum(), req.getPassword());
 		UserEntity userEntity = userServer.queryByUserId(userId);
@@ -55,7 +56,7 @@ public class UserController {
 	public ResponseData registerUserMobile(@Valid MobileRegisterReq req, BindingResult result){
 		log.info("手机注册新用户");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		Long userId = userServer.registerUser(req.getMobile(), req.getPassword());
 		UserEntity userEntity = userServer.queryByUserId(userId);
@@ -73,7 +74,7 @@ public class UserController {
 	public ResponseData bindUserEmail(@Valid UserAccountBindReq req, BindingResult result) {
 		log.info("绑定Email");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		UserEntity userEntity = userServer.accountBind(req.getUserId(), req.getAccountNum(), AccountType.email);
 		return ResponseData.ok().data(userEntity);
@@ -90,7 +91,7 @@ public class UserController {
 	public ResponseData bindUserMobile(@Valid UserAccountBindReq req, BindingResult result) {
 		log.info("绑定手机");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		UserEntity userEntity = userServer.accountBind(req.getUserId(), req.getAccountNum(), AccountType.mobile);
 		return ResponseData.ok().data(userEntity);
@@ -107,7 +108,7 @@ public class UserController {
 	public ResponseData bindUserIdCard(@Valid UserAccountBindReq req, BindingResult result) {
 		log.info("绑定身份证");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		UserEntity userEntity = userServer.accountBind(req.getUserId(), req.getAccountNum(), AccountType.idcard);
 		return ResponseData.ok().data(userEntity);
@@ -124,7 +125,7 @@ public class UserController {
 	public ResponseData bindUserAccount(@Valid UserAccountBindReq req, BindingResult result) {
 		log.info("绑定account");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		UserEntity userEntity = userServer.accountBind(req.getUserId(), req.getAccountNum(), AccountType.account);
 		return ResponseData.ok().data(userEntity);
@@ -141,7 +142,7 @@ public class UserController {
 	public ResponseData modifyUserEmail(@Valid UserAccountBindReq req, BindingResult result) {
 		log.info("修改Email");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		UserEntity userEntity = userServer.accountModify(req.getUserId(), req.getAccountNum(), AccountType.email);
 		return ResponseData.ok().data(userEntity);
@@ -158,7 +159,7 @@ public class UserController {
 	public ResponseData modifyUserMobile(@Valid UserAccountBindReq req, BindingResult result) {
 		log.info("修改手机号");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		UserEntity userEntity = userServer.accountModify(req.getUserId(), req.getAccountNum(), AccountType.mobile);
 		return ResponseData.ok().data(userEntity);
@@ -174,7 +175,7 @@ public class UserController {
 	public ResponseData modifyUserIdcard(@Valid UserAccountBindReq req, BindingResult result) {
 		log.info("修改身份证");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		UserEntity userEntity = userServer.accountModify(req.getUserId(), req.getAccountNum(), AccountType.idcard);
 		return ResponseData.ok().data(userEntity);
@@ -190,7 +191,7 @@ public class UserController {
 	public ResponseData modifyUserAccount(@Valid UserAccountBindReq req, BindingResult result) {
 		log.info("修改account");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		UserEntity userEntity = userServer.accountModify(req.getUserId(), req.getAccountNum(), AccountType.account);
 		return ResponseData.ok().data(userEntity);
@@ -207,7 +208,7 @@ public class UserController {
 	public ResponseData modifyUserDetail(@Valid UserDetailModifyReq req, BindingResult result) {
 		log.info("修改用户信息");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		UserEntity userEntity = userServer.modifyUserDetail(req);
 		return ResponseData.ok().data(userEntity);
