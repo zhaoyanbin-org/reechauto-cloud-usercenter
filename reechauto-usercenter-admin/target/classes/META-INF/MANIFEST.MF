@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
-Implementation-Title: reechauto-usercenter-sms
+Implementation-Title: reechauto-usercenter-admin
 Implementation-Version: 1.0.0-SNAPSHOT
 Built-By: DELL
 Implementation-Vendor-Id: com.reechauto.cloud.provider
 Build-Jdk: 1.8.0_66
 Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
- ot-starter-parent/oauth2111
+ ot-starter-parent/reechauto-usercenter-admin
 Created-By: Maven Integration for Eclipse
 
