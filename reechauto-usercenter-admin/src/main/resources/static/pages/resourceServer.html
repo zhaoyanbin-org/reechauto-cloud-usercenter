@@ -1,0 +1,40 @@
+<div>
+    <div  class="layui-form">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">资源服务器ID：</label>
+                <div class="layui-input-inline" style="width: 290px;">
+                    <input type="text" name="query" placeholder="请输入资源服务器ID" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn" lay-submit="" lay-filter="query" id="query-btn">查询</button>
+            </div>
+        </div>
+    </div>
+    <div  style="display: none;" id="admin-account-new" >
+        <div  class="layui-form" style="margin-top: 20px;">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">资源服务器ID：</label>
+                    <div class="layui-input-inline" style="width: 200px;">
+                        <input type="text" name="resourceId" placeholder="请输入资源服务器ID" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">资源服务器名称：</label>
+                    <div class="layui-input-inline" style="width: 200px;">
+                        <input type="text" name="resourceName" placeholder="请输入资源服务器名称" value="" maxlength="32" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="layui-btn-group">
+        <button class="layui-btn" id="admin-account-btn">新增资源服务器</button>
+    </div>
+    <table class="layui-hide" id="account-table" lay-filter="accountTable"></table>
+    <script type="text/html" id="account-toolbar">
+        <a class="layui-btn layui-btn-xs" lay-event="deleteUser">删除</a>
+        <a class="layui-btn layui-btn-xs" lay-event="updateUser">修改</a>
+    </script>
+
+</div>

@@ -1,0 +1,45 @@
+<div>
+    <div  class="layui-form">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">账号标识：</label>
+                <div class="layui-input-inline" style="width: 320px;">
+                    <input type="text" name="query" lay-verify="required" placeholder="请输入手机号、邮箱、用户名、GlobalId、账号Id" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn" lay-submit="" lay-filter="query" id="search-btn">查询</button>
+            </div>
+        </div>
+    </div>
+    <div style="display: none;" id="batch-account-new" >
+        <div  class="layui-form" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                <label class="layui-form-label">注册账号：</label>
+                <div class="layui-input-inline" style="width: 200px;">
+                    <textarea name="accountStrList" lay-verify="required" placeholder='请输入注册账号，一行一个账号，登录标识和密码使用冒号分割[":"]' autocomplete="off"  class="layui-textarea"></textarea>
+                </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                <label class="layui-form-label">注册方式：</label>
+                <div class="layui-input-inline" style="width: 200px;">
+                    <input type="hidden" name="type" value="1" />
+                    <input type="radio" name="radio-type" lay-filter="radioType" value="1" title="邀约" checked="">
+                    <input type="radio" name="radio-type" lay-filter="radioType" value="0" title="直接">
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-btn-group">
+        <button class="layui-btn" id="batch-account-new-btn">批量注册</button>
+    </div>
+    <table class="layui-hide" id="account-table" lay-filter="accountTable"></table>
+    <script type="text/html" id="user-toolbar">
+        <a class="layui-btn layui-btn-xs" lay-event="deleteUser">删除账号</a>
+        <a class="layui-btn layui-btn-xs" lay-event="reset">重置密码</a>
+    </script>
+</div>

@@ -1,0 +1,61 @@
+<div>
+    <div  class="layui-form">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">模板ID：</label>
+                <div class="layui-input-inline" style="width: 320px;">
+                    <input type="text" name="query" placeholder="请输入模板ID" autocomplete="off" class="layui-input">
+                </div>
+                <label class="layui-form-label">appKey：</label>
+                <div class="layui-input-inline" style="width: 320px;">
+                    <input type="text" name="appKey" placeholder="请输入模板appKey" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn" lay-submit="" lay-filter="query" id="query-btn">查询</button>
+            </div>
+        </div>
+    </div>
+    <div  style="display: none;" id="sms-template-new" >
+        <div  class="layui-form" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label">模板ID：</label>
+                <div class="layui-input-inline" style="width: 600px;">
+                    <input type="text" name="id" placeholder="请输入模板ID，由字母、数字、下划线组成，如account_sms_invite_zh_CN" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">名称：</label>
+                <div class="layui-input-inline" style="width: 600px;">
+                    <input type="text" name="name" placeholder="请输入模板名称，如用户中心-邀请用户注册-简体" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">应用：</label>
+                <div class="layui-input-inline" style="width: 600px;">
+                    <input type="text" name="appKey" placeholder="请输入该模板所属应用的appKey" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">内容：</label>
+                <div class="layui-input-inline" style="width: 600px;">
+                    <textarea name="content" lay-verify="required" placeholder='请输入模板内容' autocomplete="off"  class="layui-textarea"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-btn-group">
+        <button class="layui-btn" id="sms-template-new-btn">添加模板</button>
+    </div>
+    <table class="layui-hide" id="template-table" lay-filter="templateTable"></table>
+    <script type="text/html" id="template-toolbar">
+        {{#  if(d.status == 'DISABLE'){ }}
+        <button disabled class="layui-btn layui-btn-xs layui-btn-disabled" >修改</button>
+        <button class="layui-btn layui-btn-xs" lay-event="enableTemplate">启用</button>
+        {{#  } }}
+        {{#  if(d.status == 'ENABLE'){ }}
+        <button class="layui-btn layui-btn-xs" lay-event="modifyTemplate" >修改</button>
+        <button class="layui-btn layui-btn-xs" lay-event="disableTemplate">停用</button>
+        {{#  } }}
+    </script>
+</div>
