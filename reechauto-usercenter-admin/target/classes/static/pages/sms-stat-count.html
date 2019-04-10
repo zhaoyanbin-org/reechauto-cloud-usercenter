@@ -1,0 +1,31 @@
+<div>
+    <div  class="layui-form">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">日期范围：</label>
+                <div class="layui-input-inline" style="width: 360px;">
+                    <input type="text" class="layui-input" lay-verify="required" id="daterange" name="daterange" placeholder=" - ">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">AppKey：</label>
+                <div class="layui-input-inline" style="width: 240px;">
+                    <select name="appKey" id="appKey"  class="layui-input layui-unselect"></select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn" lay-submit="" id="search-btn" name="search-btn" lay-filter="query">查询</button>
+            </div>
+        </div>
+    </div>
+    <div style="width: 100%;text-align: center;margin-top: 40px;" id="report"></div>
+    <table  style="width: 100%;text-align: left;margin-top: 40px;font-weight:bold;">
+       <tr><td> 详细数据</td></tr>
+    </table>
+    <table  class="layui-table" id="smsStatCount-table" lay-filter="smsStatCounttable"></table>
+    <div  style="display: none;" id="smsStatCount-detail" ></div>
+</div>
+<script type="application/javascript" src="plugins/echarts/echarts.min.js"></script>
+<script type="text/html" id="smsStat-toolbar">
+     <button class="layui-btn layui-btn-xs" lay-event="smsStatDetail">查看</button>
+</script>
