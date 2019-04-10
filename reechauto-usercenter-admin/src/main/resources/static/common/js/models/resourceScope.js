@@ -91,7 +91,7 @@ layui.define(["table","form"],function(exports){
                         $.post('/resourceScope/add',{
                         	scope : scope,
                         	scopeTips:scopeTips,
-                        	resourceId:resourceId.join(",")
+                        	resourceId:resourceId
                         }, function(data) {
                             if(data.code == 1000){
                                 layui.layer.msg('新增成功', {icon: 1,time:3000});
@@ -209,7 +209,7 @@ layui.define(["table","form"],function(exports){
                             $.post('/resourceScope/update',{
                             	scope : scope,
                             	scopeTips:scopeTips,
-                            	resourceId:resourceId.join(","),
+                            	resourceId:resourceId,
                             	id:data.id
                             }, function(data) {
                                 if(data.code == 1000){
