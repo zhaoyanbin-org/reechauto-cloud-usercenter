@@ -1,7 +1,6 @@
 package com.reechauto.usercenter.user.bean.req.resource;
 
 import javax.validation.constraints.Min;
-
 import com.reechauto.usercenter.user.bean.req.BaseRequest;
 
 public class ResourceServerQueryRequest extends BaseRequest {
@@ -12,6 +11,13 @@ public class ResourceServerQueryRequest extends BaseRequest {
 	private int pageNum = 10;
 	@Min(value = 0, message = "开始位置不能小于0")
 	private int start = 0;
+	private String query;
+	public String getQuery() {
+		return query;
+	}
+	public void setQuery(String query) {
+		this.query = query;
+	}
 	public int getPageNum() {
 		return pageNum;
 	}

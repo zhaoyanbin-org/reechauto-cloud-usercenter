@@ -1,6 +1,8 @@
 package com.reechauto.usercenter.user.service.resource;
 
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.reechauto.usercenter.common.resp.ResponseData;
@@ -24,6 +26,10 @@ public class ResourceServerService {
 
 	public ResponseData resourceServerList(ResourceServerQueryRequest req) {
 		ResourceServerExample example = new ResourceServerExample();
+		Criteria criteria = example.createCriteria();
+		if (StringUtils.isNotBlank(req.getQuery().trim())) {
+			criteria.andResourceIdLike("%"+req.getQuery().trim()+"%");
+		}
 		Long total = resourceServerMapper.countByExample(example);
 		example.setLimitStart(req.getStart());
 		example.setOffset(req.getPageNum());
