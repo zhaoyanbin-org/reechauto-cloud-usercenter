@@ -6,18 +6,22 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.bean.grantTypes.GrantTypes;
+import com.bean.resourceServer.CompleteResourceServer;
 import com.feign.ClientService;
 import com.mapper.ResourceScopeMapper;
 import com.mapper.ResourceServerMapper;
 import com.model.ResourceScope;
 import com.model.ResourceScopeExample;
+import com.model.ResourceScopeExample.Criteria;
 import com.model.ResourceServer;
-import com.model.ResourceServerExample;
 import com.reechauto.usercenter.common.resp.ResponseData;
 
 @RestController
@@ -29,6 +33,8 @@ public class ClientController {
 	private ResourceServerMapper resourceServerMapper;
 	@Autowired
 	private ResourceScopeMapper resourceScopeMapper;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
 	@RequestMapping(value = "/clientDetails/query", method = RequestMethod.GET)
 	public Map<String, Object> queryClientDetails(@RequestParam String query,
@@ -49,10 +55,25 @@ public class ClientController {
 	@RequestMapping(value = "/resourceServers/query", method = RequestMethod.POST)
 	public Map<String, Object> queryResourceServers() {
 		Map<String, Object> result = new HashMap<String, Object>();
-		ResourceServerExample example = new ResourceServerExample();
-		List<ResourceServer> list = resourceServerMapper.selectByExample(example);
-		result.put("count", list.size());
-		result.put("data", list);
+		String sql = "select distinct resource_id from resource_scope";
+		RowMapper<ResourceServer> rowMapper = new BeanPropertyRowMapper<ResourceServer>(ResourceServer.class);
+		List<CompleteResourceServer> list2 = new ArrayList<CompleteResourceServer>();
+		List<ResourceServer> list1= this.jdbcTemplate.query(sql, rowMapper);
+		for(int i = 0;i<list1.size();i++) {
+			System.out.println(list1.get(i).getResourceId());
+			ResourceScopeExample example1 = new ResourceScopeExample();
+			Criteria criteria = example1.createCriteria();
+			criteria.andResourceIdEqualTo(list1.get(i).getResourceId());
+			List<ResourceScope> scopes = resourceScopeMapper.selectByExample(example1);
+			CompleteResourceServer server = new CompleteResourceServer();
+			server.setResourceId(list1.get(i).getResourceId());
+			server.setScopes(scopes);
+			list2.add(server);
+		}
+		/*ResourceServerExample example = new ResourceServerExample();
+		List<ResourceServer> list = resourceServerMapper.selectByExample(example);*/
+		result.put("count", list2.size());
+		result.put("data", list2);
 		result.put("code", 1000);
 		result.put("message", "OK");
 		return result;
@@ -117,14 +138,14 @@ public class ClientController {
 		return responseData;
 	}
 	@RequestMapping(value = "/clientDetails/update", method = RequestMethod.POST)
-	public ResponseData update(String oldClientId,String newClientId, String newResourceIds, String newScope,
+	public ResponseData update(String oldClientId,String newClientId, String newResourceIds,String newClientSecret, String newScope,
 			String newAuthorizedGrantTypes, String newWebServerRedirectUri, String newAuthorities, Integer newAccessTokenValidity,
 			Integer newRefreshTokenValidity, String newAdditionalInformation, String newAutoapprove) {
 		System.out.println("7777777777777777777777777777777777777777777777777");
 		if (StringUtils.isBlank(oldClientId)) {
 			throw new RuntimeException("原客户端ID不能为空");
 		}
-		ResponseData responseData = clientService.updateClientDetails(oldClientId,newClientId,  newResourceIds, newScope,
+		ResponseData responseData = clientService.updateClientDetails(oldClientId,newClientId,newResourceIds,newClientSecret, newScope,
 				newAuthorizedGrantTypes, newWebServerRedirectUri, newAuthorities, newAccessTokenValidity, newRefreshTokenValidity,
 				newAdditionalInformation, newAutoapprove, "ct", "cv", 0L);
 		System.out.println("88888888888888888888888888888888888888888888888888888888");

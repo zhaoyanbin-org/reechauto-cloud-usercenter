@@ -1,100 +1,156 @@
 <div>
-    <div  class="layui-form">
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">客户端ID：</label>
-                <div class="layui-input-inline" style="width: 290px;">
-                    <input type="text" name="query" placeholder="请输入客户端ID" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <button class="layui-btn" lay-submit="" lay-filter="query" id="query-btn">查询</button>
-            </div>
-        </div>
-    </div>
-    <div  style="display: none;" id="admin-account-new" >
-        <div  class="layui-form" style="margin-top: 20px;">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">客户端ID：</label>
-                    <div class="layui-input-inline" style="width: 400px;">
-                        <input type="text" name="clientId" placeholder="请输入客户端ID" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">客户端密码：</label>
-                    <div class="layui-input-inline" style="width: 400px;">
-                        <input type="text" name="clientSecret" placeholder="请输入用户姓名" value="" maxlength="32" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">资源服务器ID：</label>
-                    <div class="layui-input-inline" style="width: 400px;">
-                        <select name="resourceIds" multiple lay-verify="required" lay-search>
+	<div class="layui-form">
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">客户端ID：</label>
+				<div class="layui-input-inline" style="width: 290px;">
+					<input type="text" name="query" placeholder="请输入客户端ID"
+						autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<button class="layui-btn" lay-submit="" lay-filter="query"
+					id="query-btn">查询</button>
+			</div>
+		</div>
+	</div>
+	<div style="display: none;" id="admin-account-new">
+		<div class="layui-form" style="margin-top: 20px;">
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 120px;">客户端ID：</label>
+				<div class="layui-input-inline" style="width: 400px;">
+					<input type="text" name="clientId" placeholder="请输入客户端ID"
+						autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 120px;">客户端密码：</label>
+				<div class="layui-input-inline" style="width: 400px;">
+					<input type="text" name="clientSecret" placeholder="请输入用户姓名"
+						value="" maxlength="32" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 120px;">授权方式：</label>
+				<div class="layui-input-inline" style="width: 400px;">
+					<select name="authorizedGrantTypes" multiple lay-verify="required"
+						lay-search>
 
-                        </select>
-                    </div>
-                </div>
-                 <div class="layui-form-item">
-                    <label class="layui-form-label">资源范围：</label>
-                    <div class="layui-input-inline" style="width: 400px;">
-                        <select name="scope" multiple lay-verify="required" lay-search>
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 120px;">重定向地址：</label>
+				<div class="layui-input-inline" style="width: 400px;">
+					<input type="text" name="webServerRedirectUri"
+						placeholder="请输入重定向地址" value="" maxlength="32" autocomplete="off"
+						class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 120px;">authorities：</label>
+				<div class="layui-input-inline" style="width: 400px;">
+					<input type="text" name="authorities" placeholder="" value=""
+						maxlength="32" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 120px;">accessTokenValidity：</label>
+				<div class="layui-input-inline" style="width: 400px;">
+					<input type="text" name="accessTokenValidity" placeholder=""
+						value="" maxlength="32" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 120px;">refreshTokenValidity：</label>
+				<div class="layui-input-inline" style="width: 400px;">
+					<input type="text" name="refreshTokenValidity" placeholder=""
+						value="" maxlength="32" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 120px;">additionalInformation：</label>
+				<div class="layui-input-inline" style="width: 400px;">
+					<input type="text" name="additionalInformation" placeholder=""
+						value="" maxlength="32" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"  style="width: 120px;">autoapprove：</label>
+				<div class="layui-input-inline" style="width: 400px;">
+					<input type="text" name="autoapprove" placeholder="" value=""
+						maxlength="32" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 120px;">资源服务器ID：</label>
+				<div class="layui-input-inline" style="width: 400px;">
+					<select name="resourceIds" multiple lay-verify="required"
+						lay-search>
 
-                        </select>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">授权方式：</label>
-                    <div class="layui-input-inline" style="width: 400px;">
-                        <select name="authorizedGrantTypes" multiple lay-verify="required" lay-search>
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item" >
+				<label class="layui-form-label" style="width: 120px;">资源范围：</label>
+				<div class="layui-input-inline" style="width: 400px;">
+					<select name="scope" multiple lay-verify="required" lay-search>
 
-                        </select>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">重定向地址：</label>
-                    <div class="layui-input-inline" style="width: 400px;">
-                        <input type="text" name="webServerRedirectUri" placeholder="请输入重定向地址" value="" maxlength="32" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">authorities：</label>
-                    <div class="layui-input-inline" style="width: 400px;">
-                        <input type="text" name="authorities" placeholder="请输入重定向地址" value="" maxlength="32" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">accessTokenValidity：</label>
-                    <div class="layui-input-inline" style="width: 400px;">
-                        <input type="text" name="accessTokenValidity" placeholder="请输入重定向地址" value="" maxlength="32" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">refreshTokenValidity：</label>
-                    <div class="layui-input-inline" style="width: 400px;">
-                        <input type="text" name="refreshTokenValidity" placeholder="请输入重定向地址" value="" maxlength="32" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">additionalInformation：</label>
-                    <div class="layui-input-inline" style="width: 400px;">
-                        <input type="text" name="additionalInformation" placeholder="请输入重定向地址" value="" maxlength="32" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">autoapprove：</label>
-                    <div class="layui-input-inline" style="width: 400px;">
-                        <input type="text" name="autoapprove" placeholder="请输入重定向地址" value="" maxlength="32" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-        </div>
-    </div>
-    <div class="layui-btn-group">
-        <button class="layui-btn" id="admin-account-btn">新增客户端</button>
-    </div>
-    <table class="layui-hide" id="account-table" lay-filter="accountTable"></table>
-    <script type="text/html" id="account-toolbar">
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item" >
+				<label class="layui-form-label" style="width: 120px;">资源范围：</label>
+				
+			</div>
+			<div id="jj"> </div>
+			<!-- <div  id = "sssssss">
+			<div class="layui-form-item" pane="" >
+				<label class="layui-form-label">原始复选框
+				<input type="hidden" id="ddd"
+						placeholder="" value="kkk" maxlength="8" autocomplete="off"
+						class="layui-input">
+						</label>
+				<div class="layui-input-block">
+					<input name="like1" title="写作" type="checkbox"  value = "写作"
+						lay-skin="primary">
+						 <input name="like1" title="阅读"  value = "阅读"
+						type="checkbox" lay-skin="primary"> 
+						<input
+						name="like1" title="游戏"  type="checkbox" value = "游戏"
+						lay-skin="primary">
+				</div>
+			</div>
+           </div> -->
+		</div>
+	</div>
+	<div style="display: none;" id="admin-account-set">
+		<div class="layui-form" style="margin-top: 20px;">
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 120px;">新密码：</label>
+				<div class="layui-input-inline" style="width: 400px;">
+					<input type="text" name="clientSecret" placeholder=""
+						autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 120px;">确认新密码：</label>
+				<div class="layui-input-inline" style="width: 400px;">
+					<input type="text" name="clientSecret2" placeholder=""
+						value="" maxlength="32" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="layui-btn-group">
+		<button class="layui-btn" id="admin-account-btn">新增客户端</button>
+	</div>
+	<table class="layui-hide" id="account-table" lay-filter="accountTable"></table>
+	<script type="text/html" id="account-toolbar">
         <a class="layui-btn layui-btn-xs" lay-event="deleteUser">删除</a>
         <a class="layui-btn layui-btn-xs" lay-event="updateUser">修改</a>
+        <a class="layui-btn layui-btn-xs" lay-event="setNewPassword">密码重置</a>
     </script>
 
 </div>

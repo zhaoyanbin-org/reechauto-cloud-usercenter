@@ -55,12 +55,13 @@ layui.define(["table","form"],function(exports){
                 }]]
                 ,page:true
             });
-
+            var s = "";
+            var g = [];
             $("#admin-account-btn").on("click",function () {
                 layui.layer.open({
                     type : 1
                     ,title: "新增客户端" //不显示标题栏
-                    ,area:  ['600px', '800px']
+                    ,area:  ['700px', '900px']
                     ,id: 'admin-account-layer' //设定一个id，防止重复弹出
                     ,btn: ['提交', '取消']
                     ,btnAlign: 'r'
@@ -69,6 +70,9 @@ layui.define(["table","form"],function(exports){
                     ,zIndex:999
                     ,content: $('#admin-account-new').html()
                     ,success: function(layero, index){
+                    	$($('#admin-account-layer .layui-form-item')[9]).remove();
+                    	$($('#admin-account-layer .layui-form-item')[9]).remove();
+                    	g = [];
                         $("#admin-account-layer select[name='resourceIds']").empty();
                         $("#admin-account-layer select[name='resourceIds']").append('<option value="">请选择</option>');
                         $.ajax({
@@ -78,13 +82,28 @@ layui.define(["table","form"],function(exports){
                             dataType: "json",
                             async: false,
                             success: function(data){
+                            	 
                                 if(data.data && data.data.length > 0){
+                                	s = "";
                                     $(data.data).each(function(){
                                         $("#admin-account-layer select[name='resourceIds']").append('<option value="'+this.resourceId+'">'+this.resourceId+'</option>');
+                                        s = s + '<div class="layui-form-item" pane=""><label class="layui-form-label" style="width: 120px;">'+this.resourceId+':<input type="hidden" id="ddd"'+
+                                        'placeholder="" value="kkk" maxlength="8" autocomplete="off"class="layui-input"></label><div class="layui-input-block">';
+                                        var e = this.resourceId;
+                                        g.push(this.resourceId);
+                                        if(this.scopes && this.scopes.length > 0){
+                                        $(this.scopes).each(function(){
+                                            
+                                          //  s = s + '<input name="like2" title="'+this.scope+'"  value = "'+this.scope +'" type="checkbox"  lay-skin="primary">';
+                                            s = s + '<input name="'+e+'" title="'+this.scope+'"  value = "'+this.scope +'" type="checkbox"  lay-skin="primary">';
+                                        });
+                                        }
+                                        s = s +'</div></div>';
                                     });
                                 }
                             }
                         });
+                        $("#admin-account-layer #jj").html(s);
                         $("#admin-account-layer select[name='scope']").empty();
                         $("#admin-account-layer select[name='scope']").append('<option value="">请选择</option>');
                         $.ajax({
@@ -117,6 +136,7 @@ layui.define(["table","form"],function(exports){
                                 }
                             }
                         });
+                        
                         form.render();
                     }
                     ,yes: function(index, layero){
@@ -124,6 +144,36 @@ layui.define(["table","form"],function(exports){
                         var resourceIds = $('#admin-account-layer select[name="resourceIds"]').val();
                         var clientSecret = $('#admin-account-layer input[name="clientSecret"]').val().trim();
                         var scope = $('#admin-account-layer select[name="scope"]').val();
+                        var a = [];
+                       
+                        var f = [];
+                        /*$("input:checkbox[name='like2']:checked").each(function() {
+                        	var b = $(this).val();
+                        	a.push(b);
+                        	
+                        });*/
+                        $(g).each(function () {
+                            if(this && this.length > 0){
+                            	$("input:checkbox[name='"+this+"']:checked").each(function() {
+                                	var b = $(this).val();
+                                	a.push(b);
+                                	
+                                });
+                            	
+                            	var names = document.getElementsByName(this);
+                            	var flag = false;
+                            	for(var i = 0;i<names.length;i++){
+                            		if(names[i].checked){
+                            			flag = true;
+                            			break;
+                            		}
+                            	}
+                            	if(flag){
+                            		f.push(this);
+                            	}
+                            }
+                        });
+                       alert(f);
                         var authorizedGrantTypes = $('#admin-account-layer select[name="authorizedGrantTypes"]').val();
                         var webServerRedirectUri = $('#admin-account-layer input[name="webServerRedirectUri"]').val().trim();
                         var authorities = $('#admin-account-layer input[name="authorities"]').val().trim();
@@ -139,8 +189,8 @@ layui.define(["table","form"],function(exports){
                         $.post('/clientDetails/add',{
                         	clientId : clientId,
                         	clientSecret : clientSecret,
-                            resourceIds:resourceIds.join(","),
-                            scope:scope.join(","),
+                            resourceIds:f.join(","),
+                            scope:a.join(","),
                             authorizedGrantTypes:authorizedGrantTypes.join(","),
                             webServerRedirectUri : webServerRedirectUri,
                             authorities : authorities,
@@ -186,7 +236,8 @@ layui.define(["table","form"],function(exports){
                     }
                 });
             });
-            
+            var c = "";
+            var d = [];
             table.on('tool(accountTable)', function(obj){
                 var data = obj.data;
                 if(obj.event == 'deleteUser'){
@@ -205,11 +256,54 @@ layui.define(["table","form"],function(exports){
                             });
                         }
                     });
+                }else if(obj.event == 'setNewPassword'){
+                	layui.layer.open({
+                        type : 1
+                        ,title: "密码重置" //不显示标题栏
+                        ,area:  ['700px', '400px']
+                        ,offset: 'auto'
+                        ,id: 'admin-account-layer' //设定一个id，防止重复弹出
+                        ,btn: ['提交', '取消']
+                        ,btnAlign: 'r'
+                        ,shade:0
+                        ,moveType: 1 //拖拽模式，0或者1
+                        ,zIndex:999
+                        ,content: $('#admin-account-set').html()
+                        ,success: function(layero, index){
+                        	form.render();
+                        }
+                        ,yes: function(index, layero){	
+                        	var clientSecret = $('#admin-account-layer input[name="clientSecret"]').val().trim();	
+                        	var clientSecret2 = $('#admin-account-layer input[name="clientSecret2"]').val().trim();	
+                        	if(clientSecret!=clientSecret2){
+                        		layui.layer.msg("密码不一致，请重新输入", {icon: 2,time:3000});
+                                return false;
+                        	}
+                        	$.post('/clientDetails/update',{
+                                oldClientId : data.clientId,
+                                newClientSecret:clientSecret
+                            }, function(data) {
+                                if(data.code == 1000){
+                                    layui.layer.msg('修改成功', {icon: 1,time:3000});
+                                    layer.close(index); //如果设定了yes回调，需进行手工关闭
+                                    $("#query-btn").trigger("click");
+                                }else{
+                                    layui.layer.msg('修改失败' + (data.cause ? "，"+data.cause : ""), {icon: 2,time:3000});
+                                }
+                            });
+                            return false;
+                        }
+                        ,cancel: function(index, layero){
+                            layer.close(index);
+                        }
+                        
+                	});
+                        	
                 }else if(obj.event == 'updateUser'){
                     layui.layer.open({
                         type : 1
                         ,title: "修改客户端" //不显示标题栏
-                        ,area:  ['600px', '800px']
+                        ,area:  ['700px', '900px']
                         ,offset: 'auto'
                         ,id: 'admin-account-layer' //设定一个id，防止重复弹出
                         ,btn: ['提交', '取消']
@@ -220,6 +314,9 @@ layui.define(["table","form"],function(exports){
                         ,content: $('#admin-account-new').html()
                         ,success: function(layero, index){
                             $($('#admin-account-layer .layui-form-item')[1]).remove();
+                            $($('#admin-account-layer .layui-form-item')[8]).remove();
+                            $($('#admin-account-layer .layui-form-item')[8]).remove();
+                            d = [];
                             $("#admin-account-layer select[name='resourceIds']").empty();
                             $("#admin-account-layer select[name='resourceIds']").append('<option value="">请选择</option>');
                             $.ajax({
@@ -230,12 +327,26 @@ layui.define(["table","form"],function(exports){
                                 async: false,
                                 success: function(response){
                                     if(response.data && response.data.length > 0){
+                                    	c = "";
                                         $(response.data).each(function(){
                                             $("#admin-account-layer select[name='resourceIds']").append('<option value="'+this.resourceId+'">'+this.resourceId+'</option>');
+                                            d.push(this.resourceId);
+                                            c = c + '<div class="layui-form-item" pane=""><label class="layui-form-label" style="width: 120px;">'+this.resourceId+':<input type="hidden" id="ddd"'+
+                                            'placeholder="" value="kkk" maxlength="8" autocomplete="off"class="layui-input"></label><div class="layui-input-block">';
+                                    		var e = this.resourceId;
+                                            if(this.scopes && this.scopes.length > 0){
+                                            $(this.scopes).each(function(){
+                                                
+                                                c = c + '<input name="'+e+'" title="'+this.scope+'"  value = "'+this.scope +'" type="checkbox"  lay-skin="primary">';
+                                                
+                                            });
+                                            }
+                                            c = c +'</div></div>';
                                         });
                                         var resourceIds = (data.resourceIds || '' ).split(",");
                                         var temps = [];
                                         $(resourceIds).each(function () {
+                                        	
                                             if(this && this.length > 0){
                                                 var resourceId = this.replace(/,/g,'').trim();
                                                 if(resourceId){
@@ -244,9 +355,41 @@ layui.define(["table","form"],function(exports){
                                             }
                                         });
                                         $('#admin-account-layer select[name="resourceIds"]').val(temps);
-                                    }
+                                        
+                                       
+                            $("#admin-account-layer #jj").html(c);
+                            $(d).each(function () {
+                            	
+                                if(this && this.length > 0){
+                                	var names = document.getElementsByName(this);
+                               
+                                	for(var i = 0;i<names.length;i++){
+                                		var value = names[i].getAttribute("value");
+                                		/*if(names[i].checked){
+                                			flag = true;
+                                			break;
+                                		}*/
+                                		//默认选中或者不选中
+                                		 var scope = (data.scope || '' ).split(",");
+                                         $(scope).each(function () {
+                                             if(this && this.length > 0){
+                                                 var scope1 = this.replace(/,/g,'').trim();
+                                                 if(scope1){
+                                                     if(value == scope1){
+                                                    	 names[i].checked = true;
+                                                     }
+                                                 }
+                                             }
+                                         });
+                                         
+                                         
+                                	}
+                                	
                                 }
                             });
+                        }
+                    }
+                });
                             $("#admin-account-layer select[name='scope']").empty();
                             $("#admin-account-layer select[name='scope']").append('<option value="">请选择</option>');
                             $.ajax({
@@ -259,6 +402,9 @@ layui.define(["table","form"],function(exports){
                                     if(response.data && response.data.length > 0){
                                         $(response.data).each(function(){
                                             $("#admin-account-layer select[name='scope']").append('<option value="'+this.scope+'">'+this.scope+'</option>');
+                                            /*$("#admin-account-layer #jj").empty();*/
+                                            /*$("#admin-account-layer #jj").html('<div class="layui-form-item" pane=""><label class="layui-form-label">原始复选框</label><div class="layui-input-block">'+
+                                            		'<input name="like1[write]" title="写作"  type="checkbox" checked="" lay-skin="primary"><input name="like1[read]" title="阅读" type="checkbox" lay-skin="primary"><input name="like1[game]" title="游戏"  type="checkbox" lay-skin="primary"></div></div>');*/
                                         });
                                         var scope = (data.scope || '' ).split(",");
                                         var temps = [];
@@ -310,13 +456,45 @@ layui.define(["table","form"],function(exports){
                             $('#admin-account-layer input[name="refreshTokenValidity"]').val(data.refreshTokenValidity);
                             $('#admin-account-layer input[name="additionalInformation"]').val(data.additionalInformation);
                             $('#admin-account-layer input[name="autoapprove"]').val(data.autoapprove);
+                            
+                            
                             form.render();
                         }
                         ,yes: function(index, layero){
                         	
+                        	//alert("d.......="+d);
                             var clientId = $('#admin-account-layer input[name="clientId"]').val().trim();
                             var resourceIds = $('#admin-account-layer select[name="resourceIds"]').val();
                             var scope = $('#admin-account-layer select[name="scope"]').val();
+                            var a = [];
+                            var f = [];
+                            /*$("input:checkbox[name='like2']:checked").each(function() {
+                            	var b = $(this).val();
+                            	a.push(b);
+                            	
+                            });*/
+                            $(d).each(function () {
+                                if(this && this.length > 0){
+                                	$("input:checkbox[name='"+this+"']:checked").each(function() {
+                                    	var b = $(this).val();
+                                    	a.push(b);
+                                    	
+                                    });
+                                	
+                                	var names = document.getElementsByName(this);
+                                	var flag = false;
+                                	for(var i = 0;i<names.length;i++){
+                                		if(names[i].checked){
+                                			flag = true;
+                                			break;
+                                		}
+                                	}
+                                	if(flag){
+                                		f.push(this);
+                                	}
+                                }
+                            });
+                           
                             var authorizedGrantTypes = $('#admin-account-layer select[name="authorizedGrantTypes"]').val();
                             var webServerRedirectUri = $('#admin-account-layer input[name="webServerRedirectUri"]').val().trim();
                             var authorities = $('#admin-account-layer input[name="authorities"]').val().trim();
@@ -335,8 +513,8 @@ layui.define(["table","form"],function(exports){
                             $.post('/clientDetails/update',{
                                 oldClientId : data.clientId,
                                 newClientId : clientId,
-                                newResourceIds : resourceIds.join(","),
-                                newScope : scope.join(","),
+                                newResourceIds : f.join(","),
+                                newScope : a.join(","),
                                 newAuthorizedGrantTypes : authorizedGrantTypes.join(","),
                                 newWebServerRedirectUri : webServerRedirectUri,
                                 newAuthorities : authorities,

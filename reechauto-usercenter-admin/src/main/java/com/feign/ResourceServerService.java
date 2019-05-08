@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.reechauto.usercenter.common.resp.ResponseData;
 
-@FeignClient(name = "usercenter-server-user1")
+@FeignClient(name = "usercenter-server-user")
 public interface ResourceServerService {
 
 	@PostMapping("/resourceServer/list")

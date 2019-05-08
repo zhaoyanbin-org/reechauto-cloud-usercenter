@@ -32,6 +32,7 @@ public interface ClientService {
 	@PostMapping("/clientDetails/update")
 	public ResponseData updateClientDetails(@RequestParam("oldClientId") String oldClientId,
 			@RequestParam("newClientId") String newClientId, @RequestParam("newResourceIds") String newResourceIds,
+			@RequestParam("newClientSecret") String newClientSecret,
 			@RequestParam("newScope") String newScope,
 			@RequestParam("newAuthorizedGrantTypes") String newAuthorizedGrantTypes,
 			@RequestParam("newWebServerRedirectUri") String newWebServerRedirectUri,
